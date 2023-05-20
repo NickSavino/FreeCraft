@@ -24,7 +24,7 @@ public class UI : MonoBehaviour
         this.mouseSelection = new Rect();
         this.mouseClickPosition = new Vector3(0, 0, 0);
         this.mouseDragPosition = new Vector3(0, 0, 0);
-        this.selectionBox = GameObject.FindGameObjectWithTag("SelectionBox");
+     
     }
 
     // Update is called once per frame
@@ -33,7 +33,10 @@ public class UI : MonoBehaviour
         selectUnits();
     }
 
-
+    private void OnGUI()
+    {
+        
+    }
 
     public void selectUnits()
     {
@@ -43,6 +46,7 @@ public class UI : MonoBehaviour
             // if it was, set the top-left corner of the box to this position
             this.mouseClickPosition = Input.mousePosition;
             this.mouseSelection.min = this.mouseDragPosition;
+            
         }
 
         // check to see if the mouse button was held at the beginning of this frame
@@ -52,9 +56,11 @@ public class UI : MonoBehaviour
             this.mouseDragPosition = Input.mousePosition;
             this.mouseDragPosition.z = 10;
             this.mouseSelection.max = this.mouseDragPosition;
-      
-            this.selectionBox.transform.position = Camera.main.ScreenToWorldPoint(this.mouseDragPosition);
-        }
+
+            Debug.Log(this.mouseClickPosition);
+            Debug.Log(this.mouseDragPosition);
+
+            }
  
         
 
