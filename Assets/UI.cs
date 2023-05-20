@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
 
     private void OnGUI()
     {
-        
+
     }
 
     public void selectUnits()
