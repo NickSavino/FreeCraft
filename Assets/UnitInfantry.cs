@@ -10,13 +10,27 @@ public class UnitInfantry : MonoBehaviour, Unit
 
 
     // Start is called before the first frame update
-    void Start() {
-        
+    void Start()
+    {
+        fields.setPosition(transform.position);
+        fields.setTargetPosition(transform.position);
+        fields.setMovementSpeed(10);
     }
 
     // Update is called once per frame
     void Update() {
         
+        if (Input.GetMouseButtonDown(1)) {
+            //If RMB pressed, set units target position to mouse position in game world
+            fields.setTargetPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Debug.Log("Current Position: " +  transform.position);
+            Debug.Log("Target Position:  " + fields.getTargetPosition());
+        }
+
+        if (transform.position != fields.getTargetPosition())
+        {
+            moveUnit();
+        }
     }
 
     void takeDamage() {
@@ -29,6 +43,9 @@ public class UnitInfantry : MonoBehaviour, Unit
 
     void moveUnit() {
         //handles unit movement
+        Debug.Log("Move Unit Called");
+        //move unit towards target position according to movement speed
+        transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
     }
 
     void attackUnit() {
