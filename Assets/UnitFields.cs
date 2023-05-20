@@ -31,8 +31,8 @@ public class UnitFields
 
     public string getUnitName() { return this.name; }
     
-    public Vector2 getPosition() { return this.position; }
-    public Vector2 getTargetPosition() { return this.target_position; }
+    public Vector3 getPosition() { return this.position; }
+    public Vector3 getTargetPosition() { return this.target_position; }
 
     //SETTERS//
 
@@ -48,7 +48,7 @@ public class UnitFields
 
     public void setUnitName(string name) { this.name = name; }
     
-    public void setPosition(Vector2 position) {  this.position = position; }
-    public void setTargetPosition(Vector2 target_position) { this.target_position = target_position; }
+    public void setPosition(Vector3 position) {  this.position = position; }
+    public void setTargetPosition(Vector3 target_position) { this.target_position = target_position; }
 
 }
