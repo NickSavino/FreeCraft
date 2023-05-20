@@ -50,5 +50,6 @@ public class UnitInfantry : MonoBehaviour, Unit
 
     void attackUnit() {
         //handles unit performing attacks
+        
     }
 }
