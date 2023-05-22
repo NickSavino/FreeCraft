@@ -11,7 +11,9 @@ public class UI : MonoBehaviour
     Rect mouseSelection;
     Vector3 mouseClickPosition;
     Vector3 mouseDragPosition;
-    GameObject selectionBox;
+    RectTransform selectionBox;
+    Vector3 startPos;
+
 
     
 
@@ -50,17 +52,19 @@ public class UI : MonoBehaviour
         }
 
         // check to see if the mouse button was held at the beginning of this frame
-        if (Input.GetMouseButton(0))
-        {
-            // if it was, update
-            this.mouseDragPosition = Input.mousePosition;
-            this.mouseDragPosition.z = 10;
-            this.mouseSelection.max = this.mouseDragPosition;
+        //if (Input.GetMouseButton(0))
+        //{
+        //     if it was, update
 
-            Debug.Log(this.mouseClickPosition);
-            Debug.Log(this.mouseDragPosition);
 
-            }
+        //    this.mouseDragPosition = Input.mousePosition;
+        //    this.mouseDragPosition.z = 10;
+        //    this.mouseSelection.max = this.mouseDragPosition;
+
+        //    Debug.Log(this.mouseClickPosition);
+        //    Debug.Log(this.mouseDragPosition);
+
+        //    }
  
         
 
