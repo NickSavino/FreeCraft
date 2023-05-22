@@ -15,7 +15,7 @@ public class UI : MonoBehaviour
     Vector3 startPos;
 
 
-    
+
 
 
 
@@ -26,13 +26,14 @@ public class UI : MonoBehaviour
         this.mouseSelection = new Rect();
         this.mouseClickPosition = new Vector3(0, 0, 0);
         this.mouseDragPosition = new Vector3(0, 0, 0);
-     
+
     }
 
     // Update is called once per frame
     void Update()
     {
         selectUnits();
+        KeepMovingSelectedUnits();
     }
 
     private void OnGUI()
@@ -48,46 +49,38 @@ public class UI : MonoBehaviour
             // if it was, set the top-left corner of the box to this position
             this.mouseClickPosition = Input.mousePosition;
             this.mouseSelection.min = this.mouseDragPosition;
-            
+
         }
-
-        // check to see if the mouse button was held at the beginning of this frame
-        //if (Input.GetMouseButton(0))
-        //{
-        //     if it was, update
-
-
-        //    this.mouseDragPosition = Input.mousePosition;
-        //    this.mouseDragPosition.z = 10;
-        //    this.mouseSelection.max = this.mouseDragPosition;
-
-        //    Debug.Log(this.mouseClickPosition);
-        //    Debug.Log(this.mouseDragPosition);
-
-        //    }
- 
-        
-
-
 
 
     }
 
 
-    /**
-     * 
-     * Function to move current selected unit to target location
-     * 
-     */
-    public void setSelectedTargetLocation()
+    public void MoveSelectedUnits()
     {
-    
-        Vector3 mousePosition = Input.mousePosition;
-        Vector2 targetPosition = new Vector2(mousePosition.x, mousePosition.y);
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            foreach (GameObject unit in this.selectedUnits)
+            {
+                UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
+                if (infantry != null)
+                {
+                    infantry.SetDestination();
+                }
+            }
+        }
+    }
 
-
-       
-
+    public void KeepMovingSelectedUnits()
+    {
+        foreach (GameObject unit in this.selectedUnits)
+        {
+            UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
+            if (infantry != null)
+            {
+                infantry.moveUnit();
+            }
+        }
     }
 }

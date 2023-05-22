@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     // selection box color and alpha
     public static readonly Color SELECTION_COLOR = new Color(3, 252, 7, 0.25f);
 
+    public static readonly float UNIT_ACCEPTABLE_DISTANCE = 1.0f;
+
     // Collection of current selected units
     List<GameObject> selectedUnits;
 
@@ -51,7 +53,7 @@ public class GameController : MonoBehaviour
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
     }
     
-
+    
 
 
 
@@ -59,6 +61,8 @@ public class GameController : MonoBehaviour
     void Update()
     {
         UpdateSelectionBox();
+        MoveSelectedUnits();
+        KeepMovingSelectedUnits();
     }
 
     private void OnGUI()
@@ -202,7 +206,33 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void MoveSelectedUnits()
+    {
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            foreach (GameObject unit in this.selectedUnits)
+            {
+                UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
+                if (infantry != null)
+                {
+                    infantry.SetDestination();
+                }
+            }
+        }
+    }
+
+    public void KeepMovingSelectedUnits()
+    {
+        foreach (GameObject unit in this.selectedUnits)
+        {
+            UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
+            if (infantry != null)
+            {
+                infantry.moveUnit();
+            }
+        }
+    }
 
 
 
