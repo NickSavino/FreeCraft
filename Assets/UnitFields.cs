@@ -17,6 +17,7 @@ public class UnitFields
     protected Vector2 position;
     protected Vector2 target_position;
 
+
     //GETTERS//
 
     public int getHealth() { return this.health; }
