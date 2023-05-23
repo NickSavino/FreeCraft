@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
-    public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(256, 256, 256, 0.25f);
+
+    //TODO: MAKE TAGS STATIC GLOBALS
+    List<GameObject> selectedStructures;
+    public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(0, 256, 256, 0.25f);
    // bool structureSelected;
    // SpriteRenderer globalRenderer;
     bool barracksSelected;
@@ -16,7 +19,8 @@ public class StructureManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      //  globalRenderer = new SpriteRenderer();
+        //  globalRenderer = new SpriteRenderer();
+        this.selectedStructures = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -27,6 +31,7 @@ public class StructureManager : MonoBehaviour
         BuildStructure();
       //  BuildBarracks();
     }
+
 
     private void OnGUI()
     {
@@ -69,14 +74,20 @@ public class StructureManager : MonoBehaviour
                 sprite = null;
             }
 
-
+    
             GameObject baseObject = new GameObject();
             SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
+            renderer.color = DEFAULT_TEMPLATE_COLOR;
             renderer.enabled = true;
-            baseObject.AddComponent<Rigidbody2D>();
+            Rigidbody2D rigidBody =  baseObject.AddComponent<Rigidbody2D>();
+            rigidBody.isKinematic = true;
             baseObject.AddComponent<BoxCollider2D>();
-            baseObject.transform.position = new Vector3(templateRect.center.x, templateRect.center.y, 0);
+            
+            // 10 IS A MAGIC NUMBER HERE, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA
+            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
+            baseObject.transform.position += new Vector3(0, 0, 10);
+            baseObject.tag = "Structure";
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
@@ -124,6 +135,15 @@ public class StructureManager : MonoBehaviour
             GUI.DrawTexture(this.templateRect, this.template);
             GUI.color = Color.white;
         }
+    }
+
+
+
+    void SelectStrucure()
+    {
+        Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
     }
 
 }
