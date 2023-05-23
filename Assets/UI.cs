@@ -17,8 +17,6 @@ public class UI : MonoBehaviour
 
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +49,25 @@ public class UI : MonoBehaviour
             this.mouseSelection.min = this.mouseDragPosition;
 
         }
+
+        // check to see if the mouse button was held at the beginning of this frame
+        //if (Input.GetMouseButton(0))
+        //{
+        //     if it was, update
+
+
+        //    this.mouseDragPosition = Input.mousePosition;
+        //    this.mouseDragPosition.z = 10;
+        //    this.mouseSelection.max = this.mouseDragPosition;
+
+        //    Debug.Log(this.mouseClickPosition);
+        //    Debug.Log(this.mouseDragPosition);
+
+        //    }
+ 
+        
+
+
 
 
     }
