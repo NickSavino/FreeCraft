@@ -8,10 +8,14 @@ public class Unit : MonoBehaviour, UnitMethods
 {
 
     public UnitFields fields = new UnitFields();
+<<<<<<< HEAD
     protected GameObject selected_unit;
 
 
 
+=======
+    protected GameObject selected_unit; 
+>>>>>>> main
 
     private void Awake()
     {
