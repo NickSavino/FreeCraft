@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour
         Vector3 mouseClickPosition = new Vector3(0, 0, 0);
         Vector3 mouseDragPosition = new Vector3(0, 0, 0);
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
+        Cursor.SetCursor(Resources.Load<Texture2D>("cursor_regular"), new Vector2(0, 0), CursorMode.Auto);
     }
 
 
