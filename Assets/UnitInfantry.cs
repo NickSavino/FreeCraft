@@ -10,6 +10,9 @@ public class UnitInfantry : MonoBehaviour
 
     private int collisions;
 
+    void Awake() {
+    }
+
     /**
      * These functions keep track of the number of active entities that a unit is colliding with
      * 

@@ -34,11 +34,13 @@ public class GameController : MonoBehaviour
     // boolean indicatin if mouse was previously held, useful for selection unit on release
     bool mouseHeld;
 
-
-
-
     private Vector3 startPosition;
     private List<Unit> selected_units;
+
+    private void Awake()
+    {
+        selectedUnits = new List<GameObject>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -51,8 +53,8 @@ public class GameController : MonoBehaviour
 
 
 
-        Vector3 mouseClickPosition = new Vector3(0, 0, 0);
-        Vector3 mouseDragPosition = new Vector3(0, 0, 0);
+        this.mouseClickPosition = new Vector3(0, 0, 0);
+        this.mouseDragPosition = new Vector3(0, 0, 0);
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
         Cursor.SetCursor(Resources.Load<Texture2D>("cursor_regular"), new Vector2(0, 0), CursorMode.Auto);
     }
@@ -94,8 +96,6 @@ public class GameController : MonoBehaviour
         // if user is holding down the mouse
         if (Input.GetMouseButton(0))
         {
-            //flag it
-            this.mouseHeld = true;
 
             // set the bottom-right corner to the mouse position in both scales
             this.mouseDragPosition = Input.mousePosition;
@@ -106,10 +106,8 @@ public class GameController : MonoBehaviour
         }
 
         // if the user released left click
-        if (!Input.GetMouseButton(0) && this.mouseHeld)
+        if (Input.GetMouseButtonUp(0))
         {
-            // flag this
-            this.mouseHeld = false;
 
             // clear selected units
             this.selectedUnits.Clear();
@@ -182,17 +180,28 @@ public class GameController : MonoBehaviour
      */
     private void SelectUnits()
     {
+        
         // get all units
         // TODO: could probably be optimized, don't need to check every unit in the game
-        foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
+        //foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
+        //{
+            Collider2D[] collider2DArray = Physics2D.OverlapAreaAll(startPosition, getMousePos());
+
+        foreach (Collider2D collider in collider2DArray)
         {
-            // if the box overlaps, select it
-            if (CheckBoxOverlapLeftToRight(unit) || CheckBoxOverlapRightToLeft(unit))
+            Unit unit = collider.GetComponent<Unit>();
+            if (unit != null)
             {
-                this.selectedUnits.Add(unit);
-                DebugPrintSelectedUnits();
+                selected_units.Add(unit);
             }
         }
+            // if the box overlaps, select it
+            //if (CheckBoxOverlapLeftToRight(unit) || CheckBoxOverlapRightToLeft(unit))
+            //{
+            //    this.selectedUnits.Add(unit);
+            //    DebugPrintSelectedUnits();
+            //}
+        //}
 
     }
 
@@ -212,10 +221,10 @@ public class GameController : MonoBehaviour
         {
             foreach (GameObject unit in this.selectedUnits)
             {
-                UnitCavalry infantry = unit.GetComponent<UnitCavalry>();
+                UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
                 if (infantry != null)
                 {
-                    
+                    infantry.moveUnit();
                 }
 
             }
