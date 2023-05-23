@@ -71,7 +71,6 @@ public class UnitInfantry : MonoBehaviour
 
     // set the target position for a unit
     //  this may be good to have public so that the GameController class can move units?
-
     public void SetDestination()
     {
         fields.setTargetPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));

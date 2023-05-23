@@ -52,8 +52,8 @@ public class GameController : MonoBehaviour
         Vector3 mouseDragPosition = new Vector3(0, 0, 0);
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
     }
-    
-    
+
+
 
 
 
@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
         UpdateSelectionBox();
         MoveSelectedUnits();
         KeepMovingSelectedUnits();
+        SpawnCavalry();
     }
 
     private void OnGUI()
@@ -127,7 +128,7 @@ public class GameController : MonoBehaviour
         {
             // rectangle representing dimensions, need to flip y values for some reason
             Rect drawRect = new Rect(mouseSelectionViewScale.min.x, Screen.height - mouseSelectionViewScale.min.y, mouseSelectionViewScale.width, -mouseSelectionViewScale.height);
-            
+
             // set the GUI color to selection box, draw, and reset color
             GUI.color = SELECTION_COLOR;
             GUI.DrawTexture(drawRect, this.boxTexture);
@@ -150,8 +151,8 @@ public class GameController : MonoBehaviour
 
         // if y in bounds
         // note again, y needs to be inverted here
-        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY  && mouseSelectionViewScale.max.y <= unitWorldScaleY;
-      
+        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
+
         // return x and y in bounds
         return xCheck && yCheck;
     }
@@ -168,12 +169,7 @@ public class GameController : MonoBehaviour
         bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
 
 
-        Debug.Log(mouseSelectionViewScale.min.x);
-        Debug.Log(mouseSelectionViewScale.min.y);
-        Debug.Log(mouseSelectionViewScale.max.x);
-        Debug.Log(mouseSelectionViewScale.max.y);
-        Debug.Log(unitWorldScaleX);
-        Debug.Log(unitWorldScaleY);
+
         return xCheck && yCheck;
     }
 
@@ -192,9 +188,10 @@ public class GameController : MonoBehaviour
             if (CheckBoxOverlapLeftToRight(unit) || CheckBoxOverlapRightToLeft(unit))
             {
                 this.selectedUnits.Add(unit);
+                DebugPrintSelectedUnits();
             }
         }
-       
+
     }
 
     // for debugging
@@ -235,5 +232,30 @@ public class GameController : MonoBehaviour
     }
 
 
+    public void SpawnCavalry()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject newCavalry = new GameObject();
+            SpriteRenderer renderer = newCavalry.AddComponent<SpriteRenderer>();
+            newCavalry.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+            Rigidbody2D ridigBody = newCavalry.AddComponent<Rigidbody2D>();
+            BoxCollider2D collider = newCavalry.AddComponent<BoxCollider2D>();
+
+            collider.size = new Vector2(0.1f, 0.1f);
+
+
+            renderer.sprite = Resources.Load<Sprite>("sprite_cavalry");
+            renderer.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            renderer.transform.position = new Vector3(renderer.transform.position.x, renderer.transform.position.y, 0);
+            newCavalry.AddComponent<UnitInfantry>();
+            newCavalry.tag = "Unit";
+
+            
+        }
+
+
+
+    }
 }
