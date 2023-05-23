@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - SelectionBox
+  - Unit
+  - Structure
   layers:
   - Default
   - TransparentFX

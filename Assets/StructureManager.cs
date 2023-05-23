@@ -29,6 +29,7 @@ public class StructureManager : MonoBehaviour
         SelectBarracks();
         UnselectStructure();
         BuildStructure();
+        SelectStructure();
       //  BuildBarracks();
     }
 
@@ -60,7 +61,7 @@ public class StructureManager : MonoBehaviour
 
     void BuildStructure()
     {
-
+        GameObject baseObject = new GameObject();
         if (this.templateActive && Input.GetKeyDown(KeyCode.Mouse0)) {
 
 
@@ -68,14 +69,13 @@ public class StructureManager : MonoBehaviour
             if (this.barracksSelected)
             {
                 sprite = Resources.Load<Sprite>("sprite_barracks");
+                baseObject.AddComponent<StructureBarracks>();
             }
             else
             {
                 sprite = null;
             }
 
-    
-            GameObject baseObject = new GameObject();
             SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
             renderer.color = DEFAULT_TEMPLATE_COLOR;
@@ -87,6 +87,7 @@ public class StructureManager : MonoBehaviour
             // 10 IS A MAGIC NUMBER HERE, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA
             baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
             baseObject.transform.position += new Vector3(0, 0, 10);
+ 
             baseObject.tag = "Structure";
             this.barracksSelected = false;
             this.templateActive = false;
@@ -139,11 +140,34 @@ public class StructureManager : MonoBehaviour
 
 
 
-    void SelectStrucure()
+    void SelectStructure()
     {
+        this.selectedStructures.Clear();
         Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
+        {
+            if (structure.GetComponent<StructureBarracks>() != null)
+            {
+                StructureBarracks s = structure.GetComponent<StructureBarracks>();
+                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    this.selectedStructures.Add(structure);
+                }
+            }
+        }
+        DebugPrintSelected();
 
     }
 
+
+    void DebugPrintSelected()
+    {
+        foreach (GameObject structure in this.selectedStructures)
+        {
+            Debug.Log(structure.name);
+        }
+    }
 }
+
+
