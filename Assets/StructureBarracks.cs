@@ -27,6 +27,7 @@ public class StructureBarracks : MonoBehaviour
     void Update()
     {
         SetRallyPointPositionOnClick();
+        SpawnInfrantry();
     }
 
     private void OnMouseEnter()
@@ -159,6 +160,24 @@ public class StructureBarracks : MonoBehaviour
     public Vector3 GetRallyPointWorldScale()
     {
         return new Vector3(rallyPoint.transform.position.x, rallyPoint.transform.position.y, 20);
+    }
+
+    
+    public void SpawnInfrantry()
+    {
+        if (this.isSelected && Input.GetKeyDown(KeyCode.A))
+        {
+            GameObject infantry = new GameObject();
+            SpriteRenderer sprite = infantry.AddComponent<SpriteRenderer>();
+            sprite.sprite = Resources.Load<Sprite>("sprite_square");
+            infantry.AddComponent<Rigidbody2D>();
+            infantry.AddComponent<BoxCollider2D>();
+            UnitInfantry script = infantry.AddComponent<UnitInfantry>();
+            script.SetDestination(GetRallyPointWorldScale());
+            infantry.tag = "Unit";
+            infantry.transform.position = transform.position;
+            infantry.transform.position = new Vector3(infantry.transform.position.x, infantry.transform.position.y, 20);
+        }
     }
 
 

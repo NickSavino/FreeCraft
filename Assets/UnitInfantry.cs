@@ -27,11 +27,16 @@ public class UnitInfantry : MonoBehaviour
         --collisions;
     }
 
+    // TODO: Magic number 20 below related to camera transform.position.z = 10
+
     // Start is called before the first frame update
     void Start()
     {
-        fields.setPosition(transform.position);
-        fields.setTargetPosition(transform.position);
+        // fields.setPosition(transform.position);
+        fields.setPosition(Camera.main.ScreenToWorldPoint(transform.position));
+        fields.setPosition(new Vector3(fields.getPosition().x, fields.getPosition().y, 20));
+        fields.setTargetPosition(Camera.main.ScreenToWorldPoint(transform.position));
+        fields.setTargetPosition(new Vector3(transform.position.x, transform.position.y, 20));
         fields.setMovementSpeed(10);
         this.rigidBody = this.GetComponent<Rigidbody2D>();
         this.collider = this.GetComponent<BoxCollider2D>();
@@ -39,8 +44,8 @@ public class UnitInfantry : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-
-
+ 
+        moveUnit();
     }
 
 
@@ -62,19 +67,31 @@ public class UnitInfantry : MonoBehaviour
         // if the unit is not at its target position and its not close enough, keep moving
         if (transform.position != fields.getTargetPosition() && !closeEnough)
         {
-            transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(new Vector3(transform.position.x, transform.position.y, 20), fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
         }
 
         
 
     }
 
+    // TODO: Magic number 20 below related to camera transform.position.z = 10
+
     // set the target position for a unit
     //  this may be good to have public so that the GameController class can move units?
     public void SetDestination()
     {
-        fields.setTargetPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Vector3 mousePos = Input.mousePosition;
+
+        fields.setTargetPosition(new Vector3(mousePos.x, mousePos.y, 20));
     }
+
+    // assume this vector is in world-scale
+    public void SetDestination(Vector3 point)
+    {
+        fields.setTargetPosition(point);
+    }
+
+
 
     void attackUnit() {
         //handles unit performing attacks

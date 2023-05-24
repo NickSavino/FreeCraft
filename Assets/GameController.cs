@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
     {
         UpdateSelectionBox();
         MoveSelectedUnits();
-        KeepMovingSelectedUnits();
+      //  KeepMovingSelectedUnits();
     }
 
     private void OnGUI()
@@ -219,17 +219,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void KeepMovingSelectedUnits()
-    {
-        foreach (GameObject unit in this.selectedUnits)
-        {
-            UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
-            if (infantry != null)
-            {
-                infantry.moveUnit();
-            }
-        }
-    }
+    //public void KeepMovingSelectedUnits()
+    //{
+    //    foreach (GameObject unit in this.selectedUnits)
+    //    {
+    //        UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
+    //        if (infantry != null)
+    //        {
+    //            infantry.moveUnit();
+    //        }
+    //    }
+    //}
 
 
 
