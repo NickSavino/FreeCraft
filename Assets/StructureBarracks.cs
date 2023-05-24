@@ -6,20 +6,20 @@ public class StructureBarracks : MonoBehaviour
 {
     private bool mouseIsOver;
     private bool isSelected;
-    private Vector3 spawnPoint;
+    private Vector3 rallyPoint;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        this.spawnPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        this.SetDefaultRallyPoint();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       SetRallyPointOnClick();
     }
 
     private void OnMouseEnter()
@@ -34,7 +34,7 @@ public class StructureBarracks : MonoBehaviour
 
     private void OnGUI()
     {
-        DrawSpawnPoint();
+        DrawRallyPoint();
     }
 
     public bool getMouseIsOver()
@@ -74,20 +74,75 @@ public class StructureBarracks : MonoBehaviour
     }
 
 
-    public void DrawSpawnPoint()
+    public void DrawRallyPoint()
     {
         if (this.isSelected)
         {
-            GUI.color = StructureManager.SPAWN_POINT_COLOR;
-            Texture2D texture = Resources.Load<Texture2D>("sprite_triangle");
-            GUI.DrawTexture(new Rect(this.spawnPoint.x, this.spawnPoint.y, texture.width, texture.height), texture);
+            GUI.color = StructureManager.RALLY_POINT_COLOR;
+            Texture2D texture = Resources.Load<Texture2D>("sprite_rally_point");
+            GUI.DrawTexture(new Rect(this.rallyPoint.x, this.rallyPoint.y, texture.width, texture.height), texture);
             GUI.color = Color.white;
         }
     }
 
-    public void drawSpawnPoint()
-    {
 
+
+    /**
+     * Configures a coordinate in world-scale to screen-scale
+     * for drawing the rally point
+     * 
+     * TODO: This could probably be a useful implementation for general
+     * world-scale to camera-scale conversions
+     * 
+     */
+
+    public void SetRallyPointOnClick()
+    {
+        if (this.isSelected && Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            // convert psoition to screen-scale
+            this.rallyPoint = Input.mousePosition;
+
+            // invert y-coordinate after conversion
+            this.rallyPoint = new Vector3(rallyPoint.x, Camera.main.pixelHeight - rallyPoint.y, rallyPoint.z);
+        }
     }
+
+
+
+
+    public void SetDefaultRallyPoint()
+    {
+        // convert psoition to screen-scale
+        this.rallyPoint = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+
+        // invert y-coordinate after conversion
+        this.rallyPoint = new Vector3(rallyPoint.x, Camera.main.pixelHeight - rallyPoint.y, rallyPoint.z);
+    }
+
+
+    /**
+     *  Returns the rally point's position in world scale
+     */
+    public Vector3 GetRallyPointWorldScale()
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(rallyPoint.x, rallyPoint.y, rallyPoint.z));
+    }
+
+
+
+    /**
+ *  Returns the rally point's position in screen Scale
+ */
+    public Vector3 GetRallyPointScreenScale()
+    {
+        return new Vector3(rallyPoint.x, rallyPoint.y, rallyPoint.z);
+    }
+
+
+
+
+
+
 
 }

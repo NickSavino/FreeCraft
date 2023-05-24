@@ -5,15 +5,29 @@ using UnityEngine;
 public class StructureManager : MonoBehaviour
 {
 
-    //TODO: MAKE TAGS STATIC GLOBALS
-    List<GameObject> selectedStructures;
+    // global constant colors
     public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(0, 256, 256, 0.25f);
-    public static readonly Color SPAWN_POINT_COLOR = new Color(256, 0, 0, 0.5f);
-    // bool structureSelected;
-    // SpriteRenderer globalRenderer;
+    public static readonly Color RALLY_POINT_COLOR = new Color(256, 0, 0, 0.5f);
+
+    //TODO: MAKE TAGS STATIC GLOBALS
+
+    // List of currently selected structures
+    List<GameObject> selectedStructures;
+
+    // specific structure selection flags
     bool barracksSelected;
+    bool factorySelected;
+    bool stableSelected;
+    bool airstripSelected;
+
+
+    // flag to indicate that player is choosing a location for a structure
     bool templateActive;
+
+    // texture to draw when choosing where to place structure
     Texture2D template;
+
+    // dimensions of texture for use in GUI.DrawTexture()
     Rect templateRect;
     Rect worldLocationRect;
 
@@ -30,7 +44,7 @@ public class StructureManager : MonoBehaviour
         SelectBarracks();
         UnselectStructure();
         BuildStructure();
-        SelectStructure();
+        SelectStructureClick();
         //  BuildBarracks();
     }
 
@@ -41,61 +55,92 @@ public class StructureManager : MonoBehaviour
     }
 
 
-
+    /**
+     * Function for selecting barracks specifically
+     * .
+     * Allows the barracks sprite to be drawn to screen when
+     * placing a barracks.
+     * 
+     */
     void SelectBarracks()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-
-
-            // GameObject baseObject = new GameObject();
-            // SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
-            // renderer.sprite = Resources.Load<Sprite>("sprite_barracks");
-            //  globalRenderer.sprite = renderer.sprite;
-            //   this.globalRenderer.enabled = true;
+            // indicate that a barracks is selected
             this.barracksSelected = true;
+
+            // set template texture to barracks sprite
             this.template = Resources.Load<Texture2D>("sprite_barracks");
+
+            // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
-            Debug.Log("Hello, World!");
         }
     }
 
+
+    /**
+     * Places a GameObject for the desired structure into the scene.
+     * 
+     * This is done when a player places a structure
+     * 
+     */
     void BuildStructure()
-    {
+    {   
+        // declare the GameObject
         GameObject baseObject;
+
+        // If player is placing a structure and the user left-clicks
         if (this.templateActive && Input.GetKeyDown(KeyCode.Mouse0)) {
 
-
+            // declare the structure's sprite
             Sprite sprite;
+
+            // if barracks is selected, configure sprite to barracks texture
             if (this.barracksSelected)
             {
                 baseObject = new GameObject();
                 sprite = Resources.Load<Sprite>("sprite_barracks");
                 baseObject.AddComponent<StructureBarracks>();
             }
+            
+            // catch-all else condition, may not be necessary
             else
             {
                 sprite = null;
                 baseObject = null;
             }
 
+            // Add and configure the SpriteRenderer of the GameObject
             SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
             renderer.color = DEFAULT_TEMPLATE_COLOR;
             renderer.enabled = true;
+
+            // Add the rally point's sprite renderer
+            renderer.sprite = sprite;
+            renderer.color = DEFAULT_TEMPLATE_COLOR;
+            renderer.enabled = true;
+
+            // Add and configure the Rigidbody2D of the GameObject
             Rigidbody2D rigidBody = baseObject.AddComponent<Rigidbody2D>();
             rigidBody.isKinematic = true;
+
+            // Add a BoxCollider2D to the GameObject
             baseObject.AddComponent<BoxCollider2D>();
 
-            // 10 IS A MAGIC NUMBER HERE, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA
+            // TODO: 10 IS A MAGIC NUMBER BELOW, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA, ADDRESS THIS
+
+            // scale the GameObject's position to the world scale position
             baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
             baseObject.transform.position += new Vector3(0, 0, 10);
 
+            // set tag
             baseObject.tag = "Structure";
+
+            // set structure selected flags
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
-            Debug.Log(renderer.isVisible);
         }
 
     }
@@ -119,30 +164,40 @@ public class StructureManager : MonoBehaviour
 
 
 
-
+    /**
+     * Draws the texture of the structure when choosing where to place it
+     * 
+     */
     void DrawPlaceholder()
     {
+        // if the user is placing a structure
         if (this.templateActive)
-        {
+        {   
+            // get the mouse position, texture will follow this
             Vector3 mousePos = Input.mousePosition;
 
+            // configure the placement position of the texture
             this.templateRect = new Rect(mousePos.x - template.width / 2, (Camera.main.pixelHeight - mousePos.y) - template.height / 2, template.width, template.height);
-            // this.templateRect = new Rect(mousePos.x, mousePos.y, template.width, template.height);
+            
+            // draw with the desired color
+            // TODO: THIS SHOULD BE SET TO THE USER'S COLOR ONCE WE CREATE A COLOR LOOK-UP TABLE        
             GUI.color = DEFAULT_TEMPLATE_COLOR;
+
+            // then draw the texture and reset the GUI color
             GUI.DrawTexture(this.templateRect, this.template);
             GUI.color = Color.white;
         }
     }
 
 
-
-    void SelectStructure()
+    /**
+     * Allows the use to select a structure by left-clicking on it
+     * 
+     */
+    void SelectStructureClick()
     {
+        // clear current list of selected items
         this.selectedStructures.Clear();
-        Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-
-
         foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
         {
             if (structure.GetComponent<StructureBarracks>() != null)
@@ -171,6 +226,7 @@ public class StructureManager : MonoBehaviour
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
+            
         }
 
         foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
