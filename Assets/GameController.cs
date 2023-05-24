@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,6 @@ public class GameController : MonoBehaviour
     public static readonly float UNIT_ACCEPTABLE_DISTANCE = 1.0f;
 
     // Collection of current selected units
-    List<GameObject> selectedUnits;
 
 
     // world and screen scales for box
@@ -29,45 +29,27 @@ public class GameController : MonoBehaviour
     Vector3 mouseDragPosition;
 
     // placeholder texture to allow use of GUI.DrawTexture() for box
-    Texture2D boxTexture;
-
-    // boolean indicatin if mouse was previously held, useful for selection unit on release
-    bool mouseHeld;
-
-    private Vector3 startPosition;
-    private List<Unit> selected_units;
-
-    private void Awake()
-    {
-        selectedUnits = new List<GameObject>();
-    }
+    Texture2D boxTexture;   
 
     // Start is called before the first frame update
     void Start()
     {
         //initialize fields
-        this.selectedUnits = new List<GameObject>();
-
         this.mouseSelectionWorldScale = new Rect(0, 0, 0, 0);
         this.mouseSelectionViewScale = new Rect(0, 0, 0, 0);
 
 
 
-        this.mouseClickPosition = new Vector3(0, 0, 0);
-        this.mouseDragPosition = new Vector3(0, 0, 0);
+ 
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
         Cursor.SetCursor(Resources.Load<Texture2D>("cursor_regular"), new Vector2(0, 0), CursorMode.Auto);
     }
-
-
-
 
 
     // Update is called once per frame
     void Update()
     {
         UpdateSelectionBox();
-        MoveSelectedUnits();
     }
 
     private void OnGUI()
@@ -87,6 +69,8 @@ public class GameController : MonoBehaviour
         // if the user just clicked left mouse button
         if (Input.GetMouseButtonDown(0))
         {
+
+            this.mouseDragPosition = Input.mousePosition;
             // record this position as top left corner of box in both scales
             this.mouseClickPosition = Input.mousePosition;
             this.mouseSelectionViewScale.min = this.mouseDragPosition;
@@ -96,24 +80,11 @@ public class GameController : MonoBehaviour
         // if user is holding down the mouse
         if (Input.GetMouseButton(0))
         {
-
             // set the bottom-right corner to the mouse position in both scales
             this.mouseDragPosition = Input.mousePosition;
 
-            this.mouseSelectionViewScale.max = mouseDragPosition;
+            this.mouseSelectionViewScale.max = Input.mousePosition;
             this.mouseSelectionWorldScale.max = Camera.main.ViewportToWorldPoint(this.mouseDragPosition);
-
-        }
-
-        // if the user released left click
-        if (Input.GetMouseButtonUp(0))
-        {
-
-            // clear selected units
-            this.selectedUnits.Clear();
-            // add new selected units
-            SelectUnits();
-
         }
     }
 
@@ -135,114 +106,6 @@ public class GameController : MonoBehaviour
             GUI.color = Color.white;
         }
     }
-
-    /**
-     * Collision detection of seelcted units left to right
-     * 
-     */
-    private bool CheckBoxOverlapLeftToRight(GameObject unit)
-    {
-        // get world to camera conversion for units
-        float unitWorldScaleX = Camera.main.WorldToScreenPoint(unit.transform.position).x;
-        float unitWorldScaleY = Camera.main.WorldToScreenPoint(unit.transform.position).y;
-
-        // if x in bounds
-        bool xCheck = mouseSelectionViewScale.min.x <= unitWorldScaleX && mouseSelectionViewScale.max.x >= unitWorldScaleX;
-
-        // if y in bounds
-        // note again, y needs to be inverted here
-        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
-
-        // return x and y in bounds
-        return xCheck && yCheck;
-    }
-
-    /**
-     * Same as LeftToRight version
-     */
-    private bool CheckBoxOverlapRightToLeft(GameObject unit)
-    {
-        float unitWorldScaleX = Camera.main.WorldToScreenPoint(unit.transform.position).x;
-        float unitWorldScaleY = Camera.main.WorldToScreenPoint(unit.transform.position).y;
-
-        bool xCheck = mouseSelectionViewScale.min.x >= unitWorldScaleX && mouseSelectionViewScale.max.x <= unitWorldScaleX;
-        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
-
-
-
-        return xCheck && yCheck;
-    }
-
-
-    /**
-     * Function for adding units to list of selected units
-     * 
-     */
-    private void SelectUnits()
-    {
-        
-        // get all units
-        // TODO: could probably be optimized, don't need to check every unit in the game
-        //foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
-        //{
-            Collider2D[] collider2DArray = Physics2D.OverlapAreaAll(startPosition, getMousePos());
-
-        foreach (Collider2D collider in collider2DArray)
-        {
-            Unit unit = collider.GetComponent<Unit>();
-            if (unit != null)
-            {
-                selected_units.Add(unit);
-            }
-        }
-            // if the box overlaps, select it
-            //if (CheckBoxOverlapLeftToRight(unit) || CheckBoxOverlapRightToLeft(unit))
-            //{
-            //    this.selectedUnits.Add(unit);
-            //    DebugPrintSelectedUnits();
-            //}
-        //}
-
-    }
-
-    // for debugging
-    private void DebugPrintSelectedUnits()
-    {
-        foreach (GameObject unit in this.selectedUnits)
-        {
-            Debug.Log(unit.name);
-        }
-    }
-
-    public void MoveSelectedUnits()
-    {
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            foreach (GameObject unit in this.selectedUnits)
-            {
-                UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
-                if (infantry != null)
-                {
-                    infantry.moveUnit();
-                }
-
-            }
-        }
-    }    
-            
-    //public void KeepMovingSelectedUnits()
-    //{
-    //    foreach (GameObject unit in this.selectedUnits)
-    //    {
-    //        UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
-    //        if (infantry != null)
-    //        {
-    //            infantry.moveUnit();
-    //        }
-    //    }
-    //}
-
 
     public void SpawnCavalry()
     {
@@ -266,10 +129,10 @@ public class GameController : MonoBehaviour
 
 
         }
-
     }
 
-    private   Vector3 getMousePos() {
+
+        private Vector3 getMousePos() {
             //private helper function returns mouse position
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }

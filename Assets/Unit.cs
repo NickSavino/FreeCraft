@@ -59,6 +59,7 @@ public class Unit : MonoBehaviour, UnitMethods
     public void moveUnit(Vector3 target_position) {
         //handles unit movement
         //move unit towards target position according to movement speed
+        fields.setTargetPosition(target_position);
         transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
     }
 
