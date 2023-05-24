@@ -6,20 +6,27 @@ public class StructureBarracks : MonoBehaviour
 {
     private bool mouseIsOver;
     private bool isSelected;
-    private Vector3 rallyPoint;
+    private GameObject rallyPoint;
+    private SpriteRenderer rallyPointSprite;
 
+    //TODO: Magic numbers 20 below are related to camera height. Essentially,
+    // the z-coord of a GameObject must be greater than the camera's z
+    // for the sprite to render
+    //
+    // in this case, camera z = 10 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        this.SetDefaultRallyPoint();
+        this.InstantiateRallyPoint();
+        this.SetDefaultRallyPointPosition();
     }
 
     // Update is called once per frame
     void Update()
     {
-       SetRallyPointOnClick();
+        SetRallyPointPositionOnClick();
     }
 
     private void OnMouseEnter()
@@ -78,13 +85,24 @@ public class StructureBarracks : MonoBehaviour
     {
         if (this.isSelected)
         {
-            GUI.color = StructureManager.RALLY_POINT_COLOR;
-            Texture2D texture = Resources.Load<Texture2D>("sprite_rally_point");
-            GUI.DrawTexture(new Rect(this.rallyPoint.x, this.rallyPoint.y, texture.width, texture.height), texture);
-            GUI.color = Color.white;
+            this.rallyPointSprite.enabled = true;
+        }
+        else
+        {
+            this.rallyPointSprite.enabled = false;
         }
     }
 
+
+    private void InstantiateRallyPoint()
+    {
+        this.rallyPoint = new GameObject();
+        this.rallyPointSprite = this.rallyPoint.AddComponent<SpriteRenderer>();
+        this.rallyPointSprite.sprite = Resources.Load<Sprite>("sprite_rally_point");
+        this.rallyPointSprite.color = StructureManager.RALLY_POINT_COLOR;
+        SetDefaultRallyPointPosition();
+        
+    }
 
 
     /**
@@ -96,47 +114,51 @@ public class StructureBarracks : MonoBehaviour
      * 
      */
 
-    public void SetRallyPointOnClick()
+    public void SetRallyPointPositionOnClick()
     {
         if (this.isSelected && Input.GetKeyDown(KeyCode.Mouse1))
         {
             // convert psoition to screen-scale
-            this.rallyPoint = Input.mousePosition;
+            this.rallyPoint.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // invert y-coordinate after conversion
-            this.rallyPoint = new Vector3(rallyPoint.x, Camera.main.pixelHeight - rallyPoint.y, rallyPoint.z);
+            this.rallyPoint.transform.position = new Vector3(rallyPoint.transform.position.x, 
+                                           rallyPoint.transform.position.y, 
+                                           20);
         }
     }
 
 
 
 
-    public void SetDefaultRallyPoint()
+    public void SetDefaultRallyPointPosition()
     {
         // convert psoition to screen-scale
-        this.rallyPoint = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+        this.rallyPoint.transform.position = new Vector3(transform.position.x, transform.position.y, 20);
 
         // invert y-coordinate after conversion
-        this.rallyPoint = new Vector3(rallyPoint.x, Camera.main.pixelHeight - rallyPoint.y, rallyPoint.z);
+        this.rallyPoint.transform.position = new Vector3(rallyPoint.transform.position.x,
+                                                        rallyPoint.transform.position.y - transform.localScale.y, 
+                                                          20);
     }
 
 
     /**
-     *  Returns the rally point's position in world scale
+     *  Returns the rally point's position in screen scale
      */
-    public Vector3 GetRallyPointWorldScale()
-    {
-        return Camera.main.ScreenToWorldPoint(new Vector3(rallyPoint.x, rallyPoint.y, rallyPoint.z));
-    }
-
-
-
-    /**
- *  Returns the rally point's position in screen Scale
- */
     public Vector3 GetRallyPointScreenScale()
     {
-        return new Vector3(rallyPoint.x, rallyPoint.y, rallyPoint.z);
+        return Camera.main.WorldToScreenPoint(new Vector3(rallyPoint.transform.position.x, rallyPoint.transform.position.y, 20));
+    }
+
+
+
+    /**
+ *  Returns the rally point's position in world Scale
+ */
+    public Vector3 GetRallyPointWorldScale()
+    {
+        return new Vector3(rallyPoint.transform.position.x, rallyPoint.transform.position.y, 20);
     }
 
 

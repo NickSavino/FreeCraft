@@ -109,7 +109,6 @@ public class StructureManager : MonoBehaviour
                 sprite = null;
                 baseObject = null;
             }
-
             // Add and configure the SpriteRenderer of the GameObject
             SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
@@ -214,33 +213,42 @@ public class StructureManager : MonoBehaviour
 
     }
 
-
+    // TODO: This function smells, could surely be optimized in regard to the for loops
     void UnselectStructure()
     {
-        this.selectedStructures.Clear();
-        Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //this.globalRenderer.enabled = false;
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
-            
-        }
-
-        foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
-        {
-            if (structure.GetComponent<StructureBarracks>() != null)
+            this.selectedStructures.Clear();
+            foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
             {
-                StructureBarracks s = structure.GetComponent<StructureBarracks>();
-                if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                if (structure.GetComponent<StructureBarracks>() != null)
                 {
-                    this.selectedStructures.Add(structure);
+                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
                     s.setIsSelected(false);
                 }
             }
         }
+        else
+        {
+            foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
+            {
+                if (structure.GetComponent<StructureBarracks>() != null)
+                {
+                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
+                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        s.setIsSelected(false);
+                    }
+                }
+                this.selectedStructures.Clear();
+            }
+        }
+
+
         DebugPrintSelected();
 
 
