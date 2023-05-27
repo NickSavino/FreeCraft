@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class UnitInfantry : MonoBehaviour
 {
+
     private UnitFields fields = new UnitFields();
     private Rigidbody2D rigidBody;
     private new BoxCollider2D collider;
 
     private int collisions;
 
-    void Awake() {
-    }
 
     /**
      * These functions keep track of the number of active entities that a unit is colliding with
@@ -43,6 +42,8 @@ public class UnitInfantry : MonoBehaviour
     void Update()
     {
 
+        moveUnit();
+
 
     }
 
@@ -66,7 +67,9 @@ public class UnitInfantry : MonoBehaviour
         bool closeEnough = (fields.getTargetPosition() - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
 
         // if the unit is not at its target position and its not close enough, keep moving
-        if (transform.position != fields.getTargetPosition())// && !closeEnough)
+
+        if (transform.position != fields.getTargetPosition() && !closeEnough)
+
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
         }

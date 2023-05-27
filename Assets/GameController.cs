@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.UI;
 /**
  * Class for managing UI interactions
@@ -50,6 +51,10 @@ public class GameController : MonoBehaviour
     void Update()
     {
         UpdateSelectionBox();
+
+        MoveSelectedUnits();
+      //  KeepMovingSelectedUnits();
+
     }
 
     private void OnGUI()
@@ -107,37 +112,4 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void SpawnCavalry()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject newCavalry = new GameObject();
-            SpriteRenderer renderer = newCavalry.AddComponent<SpriteRenderer>();
-            newCavalry.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Rigidbody2D ridigBody = newCavalry.AddComponent<Rigidbody2D>();
-            BoxCollider2D collider = newCavalry.AddComponent<BoxCollider2D>();
-
-            collider.size = new Vector2(0.1f, 0.1f);
-
-
-            renderer.sprite = Resources.Load<Sprite>("sprite_cavalry");
-            renderer.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            renderer.transform.position = new Vector3(renderer.transform.position.x, renderer.transform.position.y, 0);
-            newCavalry.AddComponent<UnitCavalry>();
-            newCavalry.tag = "Unit";
-
-
-        }
-    }
-
-
-        private Vector3 getMousePos() {
-        //private helper function returns mouse position
-
-        var mousePos = Input.mousePosition;
-        mousePos.z = -Camera.main.transform.position.z;
-
-        return Camera.main.ScreenToWorldPoint(mousePos);
-        }
-    }
