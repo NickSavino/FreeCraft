@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.UI;
 /**
  * Class for managing UI interactions
@@ -36,6 +37,9 @@ public class GameController : MonoBehaviour
 
 
 
+
+    private Vector3 startPosition;
+    private List<Unit> selected_units;
 
     // Start is called before the first frame update
     void Start()
@@ -136,63 +140,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-    /**
-     * Collision detection of seelcted units left to right
-     * 
-     */
-    private bool CheckBoxOverlapLeftToRight(GameObject unit)
-    {
-        // get world to camera conversion for units
-        float unitWorldScaleX = Camera.main.WorldToScreenPoint(unit.transform.position).x;
-        float unitWorldScaleY = Camera.main.WorldToScreenPoint(unit.transform.position).y;
-
-        // if x in bounds
-        bool xCheck = mouseSelectionViewScale.min.x <= unitWorldScaleX && mouseSelectionViewScale.max.x >= unitWorldScaleX;
-
-        // if y in bounds
-        // note again, y needs to be inverted here
-        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
-
-        // return x and y in bounds
-        return xCheck && yCheck;
-    }
-
-    /**
-     * Same as LeftToRight version
-     */
-    private bool CheckBoxOverlapRightToLeft(GameObject unit)
-    {
-        float unitWorldScaleX = Camera.main.WorldToScreenPoint(unit.transform.position).x;
-        float unitWorldScaleY = Camera.main.WorldToScreenPoint(unit.transform.position).y;
-
-        bool xCheck = mouseSelectionViewScale.min.x >= unitWorldScaleX && mouseSelectionViewScale.max.x <= unitWorldScaleX;
-        bool yCheck = mouseSelectionViewScale.min.y >= unitWorldScaleY && mouseSelectionViewScale.max.y <= unitWorldScaleY;
 
 
-
-        return xCheck && yCheck;
-    }
-
-
-    /**
-     * Function for adding units to list of selected units
-     * 
-     */
-    private void SelectUnits()
-    {
-        // get all units
-        // TODO: could probably be optimized, don't need to check every unit in the game
-        foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
-        {
-            // if the box overlaps, select it
-            if (CheckBoxOverlapLeftToRight(unit) || CheckBoxOverlapRightToLeft(unit))
-            {
-                this.selectedUnits.Add(unit);
-                DebugPrintSelectedUnits();
-            }
-        }
-
-    }
 
     // for debugging
     private void DebugPrintSelectedUnits()
@@ -203,33 +152,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void MoveSelectedUnits()
-    {
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            foreach (GameObject unit in this.selectedUnits)
-            {
-                UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
-                if (infantry != null)
-                {
-                    infantry.SetDestination();
-                }
-            }
-        }
-    }
 
-    //public void KeepMovingSelectedUnits()
-    //{
-    //    foreach (GameObject unit in this.selectedUnits)
-    //    {
-    //        UnitInfantry infantry = unit.GetComponent<UnitInfantry>();
-    //        if (infantry != null)
-    //        {
-    //            infantry.moveUnit();
-    //        }
-    //    }
-    //}
+   
+
 
 
 

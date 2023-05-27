@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
 
+    protected GameObject selected_unit; 
 
     private void Awake()
     {
