@@ -7,9 +7,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour, UnitMethods
 {
 
-    public UnitFields fields = new UnitFields();
-    protected GameObject selected_unit;
 
+    [SerializeField] public UnitFields fields;
+    protected GameObject selected_unit;
+    private int collisions;
 
 
 
@@ -24,26 +25,34 @@ public class Unit : MonoBehaviour, UnitMethods
         selected_unit.SetActive(visible);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"called on {this.name} because of collision with {collision.collider.name} ");
+        ++collisions;
     }
+
+
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        --collisions;
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        fields.setPosition(transform.position);
-        fields.setTargetPosition(transform.position);
-        fields.setMovementSpeed(10);
+        fields.position = transform.position;
+        fields.target_position = transform.position;
+
     }
 
     // Update is called once per frame
     void Update() {
       
 
-        if (transform.position != fields.getTargetPosition())
+        if (transform.position != fields.target_position)
         {
-                moveUnit(fields.getTargetPosition());
+                moveUnit();
         }
     }
 
@@ -56,14 +65,49 @@ public class Unit : MonoBehaviour, UnitMethods
     }
 
 
-    public void moveUnit(Vector3 target_position) {
+
+    public void moveUnit()
+    {
+
+        // check to see if the unit is within range to destination and its not colliding with anything
+        bool closeEnough = (fields.target_position - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
+
+        // if the unit is not at its target position and its not close enough, keep moving
+        if (transform.position != fields.target_position && !closeEnough)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
+        }
+
+
+
+    }
+
+    public void moveUnit(Vector3 target_position)
+    {
         //handles unit movement
         //move unit towards target position according to movement speed
-        fields.setTargetPosition(target_position);
-        transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
+        fields.target_position = target_position;
+        transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
 
     void attackUnit() {
         //handles unit performing attacks
     }
+
+
+    // set the target position for a unit
+    //  this may be good to have public so that the GameController class can move units?
+    public void SetDestination()
+    {
+        fields.target_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+
+
+
+
+
+
+
+
 }

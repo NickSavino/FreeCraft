@@ -17,6 +17,11 @@ public interface UnitMethods
         //handles unit movement
     }
 
+    void moveUnit(Vector3 pos)
+    {
+        //handles unit movement
+    }
+
     void attackUnit() {
         //handles unit performing attacks
     }
