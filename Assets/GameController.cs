@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
     Vector3 mouseDragPosition;
 
     // placeholder texture to allow use of GUI.DrawTexture() for box
-    Texture2D boxTexture;   
+    Texture2D boxTexture;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
 
 
 
- 
+
         this.boxTexture = (Texture2D)Resources.Load("boxTexture");
         Cursor.SetCursor(Resources.Load<Texture2D>("cursor_regular"), new Vector2(0, 0), CursorMode.Auto);
     }
@@ -52,8 +52,8 @@ public class GameController : MonoBehaviour
     {
         UpdateSelectionBox();
 
-        MoveSelectedUnits();
-      //  KeepMovingSelectedUnits();
+      //  MoveSelectedUnits();
+        //  KeepMovingSelectedUnits();
 
     }
 
@@ -113,3 +113,4 @@ public class GameController : MonoBehaviour
     }
 
 
+}

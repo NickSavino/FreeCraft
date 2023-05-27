@@ -173,7 +173,7 @@ public class StructureBarracks : MonoBehaviour
             infantry.AddComponent<Rigidbody2D>();
             infantry.AddComponent<BoxCollider2D>();
             UnitInfantry script = infantry.AddComponent<UnitInfantry>();
-            script.SetDestination(GetRallyPointWorldScale());
+           // script.SetDestination(GetRallyPointWorldScale());
             infantry.tag = "Unit";
             infantry.transform.position = transform.position;
             infantry.transform.position = new Vector3(infantry.transform.position.x, infantry.transform.position.y, 20);
