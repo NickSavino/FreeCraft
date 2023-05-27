@@ -67,7 +67,10 @@ public class UnitController : MonoBehaviour
     private Vector3 getMousePos()
     {
         //private helper function returns mouse position
+
+        var mousePos = Input.mousePosition;
+        mousePos.z = -Camera.main.transform.position.z;
         
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return Camera.main.ScreenToWorldPoint(mousePos);
     }
 }

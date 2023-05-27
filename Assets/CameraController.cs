@@ -58,27 +58,27 @@ public class CameraController : MonoBehaviour
         //Zoom in
         if (Input.GetAxis("Mouse ScrollWheel") > 0) 
         {
-            zoomIn();
+            ZoomIn();
         }
 
 
         //Zoom out
         if (Input.GetAxis("Mouse ScrollWheel") < 0) 
         {
-            zoomOut();
+            ZoomOut();
         }
 
         this.transform.position = camera_position;
     }
 
-    public void zoomIn()
+    public void ZoomIn()
     {
         if (_camera.fieldOfView >= _minFov)
         {
             _camera.fieldOfView -= _zoomSpeed;
         }
     }
-    public void zoomOut()
+    public void ZoomOut()
     {
         if (_camera.fieldOfView <= _maxFov)
         {
