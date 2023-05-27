@@ -11,6 +11,7 @@ public class UnitInfantry : MonoBehaviour
 
     private int collisions;
 
+
     /**
      * These functions keep track of the number of active entities that a unit is colliding with
      * 
@@ -40,7 +41,9 @@ public class UnitInfantry : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         moveUnit();
+
 
     }
 
@@ -64,7 +67,9 @@ public class UnitInfantry : MonoBehaviour
         bool closeEnough = (fields.getTargetPosition() - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
 
         // if the unit is not at its target position and its not close enough, keep moving
+
         if (transform.position != fields.getTargetPosition() && !closeEnough)
+
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.getTargetPosition(), fields.getMovementSpeed() * Time.deltaTime);
         }

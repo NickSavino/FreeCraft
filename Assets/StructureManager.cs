@@ -51,7 +51,7 @@ public class StructureManager : MonoBehaviour
 
     private void OnGUI()
     {
-        DrawPlaceholder();
+        //DrawPlaceholder();
     }
 
 
