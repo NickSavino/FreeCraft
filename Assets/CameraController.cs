@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _maxFov = 100f;
     [SerializeField] private float _minFov = 1.0f;
 
+
     void Start()
     {
         camera_position = this.transform.position;
@@ -24,8 +25,11 @@ public class CameraController : MonoBehaviour
     void Update()
     {
 
+
+
         //up
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Camera.main.pixelHeight)
+
         {
 
             camera_position.y += _cameraSpeed / 50;
@@ -33,7 +37,9 @@ public class CameraController : MonoBehaviour
 
 
         //left
-        if (Input.GetKey(KeyCode.A))
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.mousePosition.x <= 0)
+
         {
 
             camera_position.x -= _cameraSpeed / 50;
@@ -41,14 +47,18 @@ public class CameraController : MonoBehaviour
 
 
         //down
-        if (Input.GetKey(KeyCode.S))
+
+        if (Input.GetKey(KeyCode.DownArrow) || Input.mousePosition.y <= 0)
+
         {
 
             camera_position.y -= _cameraSpeed / 50;
         }
 
         //right
-        if (Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.mousePosition.x >= Camera.main.pixelWidth)
+
         {
 
             camera_position.x += _cameraSpeed / 50;

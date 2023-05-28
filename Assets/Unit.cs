@@ -18,6 +18,10 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         selected_unit = transform.Find("Selected").gameObject;
         SetSelectedVisible(false);
+
+        fields.position = transform.position;
+      //  fields.target_position = transform.position;
+
     }
 
     public void SetSelectedVisible(bool visible)
@@ -26,6 +30,7 @@ public class Unit : MonoBehaviour, UnitMethods
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+
     {
         ++collisions;
     }
@@ -41,9 +46,8 @@ public class Unit : MonoBehaviour, UnitMethods
     // Start is called before the first frame update
     void Start()
     {
-        fields.position = transform.position;
-        fields.target_position = transform.position;
-
+        //fields.position = transform.position;
+        //fields.target_position = transform.position;
     }
 
     // Update is called once per frame
@@ -84,6 +88,7 @@ public class Unit : MonoBehaviour, UnitMethods
 
     public void moveUnit(Vector3 target_position)
     {
+
         //handles unit movement
         //move unit towards target position according to movement speed
         fields.target_position = target_position;
@@ -101,6 +106,14 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         fields.target_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
+
+
+    public void SetDestination(Vector3 spawnPoint)
+    {
+        fields.target_position = spawnPoint;
+        transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
+    }
+
 
 
 

@@ -2,8 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/**
+ * Class for allowing user to create, control, and manage structures
+ * 
+ * 
+ * 
+ */
+
+
 public class StructureManager : MonoBehaviour
 {
+    
+
+    // TODO: Structure spawning should use prefabs
 
     // global constant colors
     public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(0, 256, 256, 0.25f);
@@ -41,10 +54,14 @@ public class StructureManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SelectAirstrip();
+        SelectStable();
         SelectBarracks();
+        SelectFactory();
         UnselectStructure();
         BuildStructure();
         SelectStructureClick();
+        DrawPlaceholder();
         //  BuildBarracks();
     }
 
@@ -64,7 +81,7 @@ public class StructureManager : MonoBehaviour
      */
     void SelectBarracks()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && !this.templateActive)
         {
             // indicate that a barracks is selected
             this.barracksSelected = true;
@@ -78,11 +95,59 @@ public class StructureManager : MonoBehaviour
     }
 
 
+    void SelectFactory()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.factorySelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_factory");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
+
+    void SelectStable()
+    {
+        if (Input.GetKeyDown(KeyCode.S) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.stableSelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_stable");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
+
+    void SelectAirstrip()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.airstripSelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_airstrip");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
     /**
      * Places a GameObject for the desired structure into the scene.
      * 
      * This is done when a player places a structure
      * 
+     * TODO: Could probably be optimized
      */
     void BuildStructure()
     {   
@@ -102,7 +167,26 @@ public class StructureManager : MonoBehaviour
                 sprite = Resources.Load<Sprite>("sprite_barracks");
                 baseObject.AddComponent<StructureBarracks>();
             }
-            
+            else if (this.factorySelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_factory");
+                baseObject.AddComponent<StructureFactory>();
+            }
+
+            else if (this.stableSelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_stable");
+                baseObject.AddComponent<StructureStable>();
+            }
+            else if (this.airstripSelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_airstrip");
+                baseObject.AddComponent<StructureAirstrip>();
+            }
+
             // catch-all else condition, may not be necessary
             else
             {
@@ -130,9 +214,8 @@ public class StructureManager : MonoBehaviour
             // TODO: 10 IS A MAGIC NUMBER BELOW, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA, ADDRESS THIS
 
             // scale the GameObject's position to the world scale position
-            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
-            baseObject.transform.position += new Vector3(0, 0, 10);
-
+            // baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
+            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, -Camera.main.transform.position.z));
             // set tag
             baseObject.tag = "Structure";
 
@@ -145,18 +228,7 @@ public class StructureManager : MonoBehaviour
     }
 
 
-    void BuildFactory()
-    {
 
-    }
-
-
-
-
-    void BuildStable()
-    {
-
-    }
 
 
 
@@ -192,76 +264,75 @@ public class StructureManager : MonoBehaviour
     /**
      * Allows the use to select a structure by left-clicking on it
      * 
+     * 
      */
     void SelectStructureClick()
     {
         // clear current list of selected items
         this.selectedStructures.Clear();
+
+        // iterate through each structure
         foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
         {
-            if (structure.GetComponent<StructureBarracks>() != null)
-            {
-                StructureBarracks s = structure.GetComponent<StructureBarracks>();
+
+                // set the structure to selected if user clicked on it
+                Structure s = structure.GetComponent<Structure>();
                 if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     this.selectedStructures.Add(structure);
                     s.setIsSelected(true);
                 }
-            }
         }
-        DebugPrintSelected();
 
     }
 
-    // TODO: This function smells, could surely be optimized in regard to the for loops
+
+
+    /**
+     * Unselect structure if ESC is clicked, or if user clicked anywhere else
+     * 
+     * 
+     * 
+     */
+
     void UnselectStructure()
     {
-
+        // if escape is clicked
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // reset selection fields in this class
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
             this.selectedStructures.Clear();
+
+            // iterate over each structure, find the type of structure, then set its selected to false
             foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
             {
-                if (structure.GetComponent<StructureBarracks>() != null)
-                {
-                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
-                    s.setIsSelected(false);
-                }
+                // unselect the structure using its script
+                Structure s = structure.GetComponent<Structure>();
+                s.setIsSelected(false);
             }
         }
+
+        // otherwise check for left mouse click to unselect
         else
         {
             foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
             {
-                if (structure.GetComponent<StructureBarracks>() != null)
-                {
-                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
+                    Structure s = structure.GetComponent<Structure>();
+
+                    // if the user clicked anywhere not on the structure, unselect it
                     if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         s.setIsSelected(false);
                     }
-                }
+   
                 this.selectedStructures.Clear();
             }
         }
-
-
-        DebugPrintSelected();
-
-
-
     }
 
-    void DebugPrintSelected()
-    {
-        foreach (GameObject structure in this.selectedStructures)
-        {
-            Debug.Log(structure.name);
-        }
-    }
 }
 
 
