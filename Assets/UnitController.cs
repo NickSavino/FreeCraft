@@ -22,13 +22,11 @@ public class UnitController : MonoBehaviour
         {
             //LMB Pressed
             startPosition = getMousePos();
-            Debug.Log(startPosition);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
 
-            Debug.Log(startPosition + " " + getMousePos());
             Collider2D[] collider2DArray = Physics2D.OverlapAreaAll(this.startPosition, getMousePos());
 
 
@@ -41,7 +39,6 @@ public class UnitController : MonoBehaviour
             this.selectedUnits.Clear();
 
             // add new selected units
-            Debug.Log("######");
             foreach (Collider2D collider2D in collider2DArray)
             {
                
@@ -52,7 +49,6 @@ public class UnitController : MonoBehaviour
                     selectedUnits.Add(unit);
                 }
             }
-            Debug.Log(selectedUnits.Count);
         }
 
         if (Input.GetMouseButtonDown(1))

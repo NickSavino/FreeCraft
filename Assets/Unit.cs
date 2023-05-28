@@ -7,10 +7,9 @@ using UnityEngine;
 public class Unit : MonoBehaviour, UnitMethods
 {
 
-
     [SerializeField] public UnitFields fields;
     protected GameObject selected_unit;
-    private int collisions;
+    protected int collisions;
 
 
 
@@ -66,7 +65,7 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
 
-    public void moveUnit()
+    public virtual void moveUnit()
     {
 
         // check to see if the unit is within range to destination and its not colliding with anything
@@ -77,12 +76,9 @@ public class Unit : MonoBehaviour, UnitMethods
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
         }
-
-
-
     }
 
-    public void moveUnit(Vector3 target_position)
+    public virtual void moveUnit(Vector3 target_position)
     {
         //handles unit movement
         //move unit towards target position according to movement speed
@@ -101,13 +97,6 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         fields.target_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-
-
-
-
-
-
-
 
 
 }
