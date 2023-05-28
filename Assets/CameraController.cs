@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _zoomSpeed = 20f;
     [SerializeField] private float _maxFov = 100f;
     [SerializeField] private float _minFov = 1.0f;
+    Vector3 mouseDownPos;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
 
         //up
         if (Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Camera.main.pixelHeight)
