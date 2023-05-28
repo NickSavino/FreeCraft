@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
     {
 
         //up
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
 
             camera_position.y += _cameraSpeed / 50;
@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
 
 
         //left
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
 
             camera_position.x -= _cameraSpeed / 50;
@@ -41,14 +41,14 @@ public class CameraController : MonoBehaviour
 
 
         //down
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
 
             camera_position.y -= _cameraSpeed / 50;
         }
 
         //right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
 
             camera_position.x += _cameraSpeed / 50;

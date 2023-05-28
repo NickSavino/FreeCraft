@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     // selection box color and alpha
     public static readonly Color SELECTION_COLOR = new Color(3, 252, 7, 0.25f);
 
-    public static readonly float UNIT_ACCEPTABLE_DISTANCE = 1.0f;
+    public static readonly float UNIT_ACCEPTABLE_DISTANCE = 3f;
 
     // Collection of current selected units
 

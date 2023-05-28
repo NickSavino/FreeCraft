@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
+    
+
+    // TODO: Structure spawning should use prefabs
 
     // global constant colors
     public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(0, 256, 256, 0.25f);
@@ -41,17 +44,21 @@ public class StructureManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SelectAirstrip();
+        SelectStable();
         SelectBarracks();
+        SelectFactory();
         UnselectStructure();
         BuildStructure();
         SelectStructureClick();
+        DrawPlaceholder();
         //  BuildBarracks();
     }
 
 
     private void OnGUI()
     {
-        //DrawPlaceholder();
+        DrawPlaceholder();
     }
 
 
@@ -64,7 +71,7 @@ public class StructureManager : MonoBehaviour
      */
     void SelectBarracks()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && !this.templateActive)
         {
             // indicate that a barracks is selected
             this.barracksSelected = true;
@@ -77,6 +84,53 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+
+    void SelectFactory()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.factorySelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_factory");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
+
+    void SelectStable()
+    {
+        if (Input.GetKeyDown(KeyCode.S) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.stableSelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_stable");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
+
+    void SelectAirstrip()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.airstripSelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_airstrip");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
 
     /**
      * Places a GameObject for the desired structure into the scene.
@@ -102,7 +156,26 @@ public class StructureManager : MonoBehaviour
                 sprite = Resources.Load<Sprite>("sprite_barracks");
                 baseObject.AddComponent<StructureBarracks>();
             }
-            
+            else if (this.factorySelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_factory");
+                baseObject.AddComponent<StructureFactory>();
+            }
+
+            else if (this.stableSelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_stable");
+                baseObject.AddComponent<StructureStable>();
+            }
+            else if (this.airstripSelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_airstrip");
+                baseObject.AddComponent<StructureAirstrip>();
+            }
+
             // catch-all else condition, may not be necessary
             else
             {
@@ -130,9 +203,8 @@ public class StructureManager : MonoBehaviour
             // TODO: 10 IS A MAGIC NUMBER BELOW, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA, ADDRESS THIS
 
             // scale the GameObject's position to the world scale position
-            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
-            baseObject.transform.position += new Vector3(0, 0, 10);
-
+            // baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
+            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, -Camera.main.transform.position.z));
             // set tag
             baseObject.tag = "Structure";
 
@@ -145,18 +217,7 @@ public class StructureManager : MonoBehaviour
     }
 
 
-    void BuildFactory()
-    {
 
-    }
-
-
-
-
-    void BuildStable()
-    {
-
-    }
 
 
 
@@ -208,12 +269,39 @@ public class StructureManager : MonoBehaviour
                     s.setIsSelected(true);
                 }
             }
+            else if (structure.GetComponent<StructureFactory>() != null)
+            {
+                StructureFactory s = structure.GetComponent<StructureFactory>();
+                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    this.selectedStructures.Add(structure);
+                    s.setIsSelected(true);
+                }
+            }
+            else if (structure.GetComponent<StructureStable>() != null)
+            {
+                StructureStable s = structure.GetComponent<StructureStable>();
+                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    this.selectedStructures.Add(structure);
+                    s.setIsSelected(true);
+                }
+            }
+            else if (structure.GetComponent<StructureAirstrip>() != null)
+            {
+                StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
+                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    this.selectedStructures.Add(structure);
+                    s.setIsSelected(true);
+                }
+            }
         }
         DebugPrintSelected();
 
     }
 
-    // TODO: This function smells, could surely be optimized in regard to the for loops
+    // TODO: This function smells, could defo be optimized in regard to the for loops
     void UnselectStructure()
     {
 
@@ -230,6 +318,21 @@ public class StructureManager : MonoBehaviour
                     StructureBarracks s = structure.GetComponent<StructureBarracks>();
                     s.setIsSelected(false);
                 }
+                else if (structure.GetComponent<StructureFactory>() != null)
+                {
+                    StructureFactory s = structure.GetComponent<StructureFactory>();
+                    s.setIsSelected(false);
+                }
+                else if (structure.GetComponent<StructureStable>() != null)
+                {
+                    StructureStable s = structure.GetComponent<StructureStable>();
+                    s.setIsSelected(false);
+                }
+                else if (structure.GetComponent<StructureAirstrip>() != null)
+                {
+                    StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
+                    s.setIsSelected(false);
+                }
             }
         }
         else
@@ -239,6 +342,30 @@ public class StructureManager : MonoBehaviour
                 if (structure.GetComponent<StructureBarracks>() != null)
                 {
                     StructureBarracks s = structure.GetComponent<StructureBarracks>();
+                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        s.setIsSelected(false);
+                    }
+                }
+                else if (structure.GetComponent<StructureFactory>() != null)
+                {
+                    StructureFactory s = structure.GetComponent<StructureFactory>();
+                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        s.setIsSelected(false);
+                    }
+                }
+                else if (structure.GetComponent<StructureStable>() != null)
+                {
+                    StructureStable s = structure.GetComponent<StructureStable>();
+                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        s.setIsSelected(false);
+                    }
+                }
+                else if (structure.GetComponent<StructureAirstrip>() != null)
+                {
+                    StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
                     if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         s.setIsSelected(false);
