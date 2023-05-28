@@ -10,12 +10,13 @@ public class StructureAirstrip : Structure
         SpawnAir();
     }
 
+    // Refer to Structure Barracks if confused on this method
     public void SpawnAir()
     {
         if (this.isSelected && Input.GetKeyDown(KeyCode.A))
         {
             GameObject air = Resources.Load("Air") as GameObject;
-            air.transform.position = new Vector3(transform.position.x + (2 * transform.localScale.x), transform.position.y + (2 * transform.localScale.x), 0);
+            air.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitAir script = air.GetComponent<UnitAir>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));
             Instantiate(air);

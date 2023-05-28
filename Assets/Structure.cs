@@ -2,23 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/**
+ * Base structure class
+ * 
+ * All structures will extend this class
+ * 
+ */
+
 public class Structure : MonoBehaviour
-{
+{   
+    // if the mouse overlaps with transform.position
     protected bool mouseIsOver;
+
+    // if the structure is selected
     protected bool isSelected;
+    
+    // Each structure will have a rally point
     protected GameObject rallyPoint;
     protected SpriteRenderer rallyPointSprite;
 
 
     // TODO: Should maybe go in awake, so it is allocated on GameObject.Instantiate
+    // This requires converting structure spawns to using prefabs
     protected UnitFields fields = new UnitFields();
 
-
-    //TODO: Magic numbers 20 below are related to camera height. Essentially,
-    // the z-coord of a GameObject must be greater than the camera's z
-    // for the sprite to render
-    //
-    // in this case, camera z = 10 
 
 
     // Start is called before the first frame update
@@ -67,9 +75,13 @@ public class Structure : MonoBehaviour
 
 
 
-
+    /**
+     * Draws the rally point in the game world
+     * 
+     */
     public void DrawRallyPoint()
     {
+        // if is selected, render rally sprite, otherwise dont
         if (this.isSelected)
         {
             this.rallyPointSprite.enabled = true;
@@ -81,6 +93,13 @@ public class Structure : MonoBehaviour
     }
 
 
+
+    /**
+     * 
+     * Essentially a constructor for the rally point
+     * 
+     * 
+     */
     private void InstantiateRallyPoint()
     {
         this.rallyPoint = new GameObject();
@@ -116,13 +135,14 @@ public class Structure : MonoBehaviour
 
 
 
-
+    /**
+     * Sets the default rally point, in front of structure
+     * 
+     */
     public void SetDefaultRallyPointPosition()
     {
-        // convert psoition to screen-scale
-        this.rallyPoint.transform.position = new Vector3(rallyPoint.transform.position.x,
-                                                rallyPoint.transform.position.y,
-                                                  0);
+        // se the position to just below structure
+        this.rallyPoint.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
     }
 
 

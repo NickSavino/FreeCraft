@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/**
+ * Class for allowing user to create, control, and manage structures
+ * 
+ * 
+ * 
+ */
+
+
 public class StructureManager : MonoBehaviour
 {
     
@@ -137,6 +147,7 @@ public class StructureManager : MonoBehaviour
      * 
      * This is done when a player places a structure
      * 
+     * TODO: Could probably be optimized
      */
     void BuildStructure()
     {   
@@ -253,142 +264,75 @@ public class StructureManager : MonoBehaviour
     /**
      * Allows the use to select a structure by left-clicking on it
      * 
+     * 
      */
     void SelectStructureClick()
     {
         // clear current list of selected items
         this.selectedStructures.Clear();
+
+        // iterate through each structure
         foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
         {
-            if (structure.GetComponent<StructureBarracks>() != null)
-            {
-                StructureBarracks s = structure.GetComponent<StructureBarracks>();
+
+                // set the structure to selected if user clicked on it
+                Structure s = structure.GetComponent<Structure>();
                 if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     this.selectedStructures.Add(structure);
                     s.setIsSelected(true);
                 }
-            }
-            else if (structure.GetComponent<StructureFactory>() != null)
-            {
-                StructureFactory s = structure.GetComponent<StructureFactory>();
-                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    this.selectedStructures.Add(structure);
-                    s.setIsSelected(true);
-                }
-            }
-            else if (structure.GetComponent<StructureStable>() != null)
-            {
-                StructureStable s = structure.GetComponent<StructureStable>();
-                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    this.selectedStructures.Add(structure);
-                    s.setIsSelected(true);
-                }
-            }
-            else if (structure.GetComponent<StructureAirstrip>() != null)
-            {
-                StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
-                if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    this.selectedStructures.Add(structure);
-                    s.setIsSelected(true);
-                }
-            }
         }
-        DebugPrintSelected();
 
     }
 
-    // TODO: This function smells, could defo be optimized in regard to the for loops
+
+
+    /**
+     * Unselect structure if ESC is clicked, or if user clicked anywhere else
+     * 
+     * 
+     * 
+     */
+
     void UnselectStructure()
     {
-
+        // if escape is clicked
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // reset selection fields in this class
             this.barracksSelected = false;
             this.templateActive = false;
             this.template = null;
             this.selectedStructures.Clear();
+
+            // iterate over each structure, find the type of structure, then set its selected to false
             foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
             {
-                if (structure.GetComponent<StructureBarracks>() != null)
-                {
-                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
-                    s.setIsSelected(false);
-                }
-                else if (structure.GetComponent<StructureFactory>() != null)
-                {
-                    StructureFactory s = structure.GetComponent<StructureFactory>();
-                    s.setIsSelected(false);
-                }
-                else if (structure.GetComponent<StructureStable>() != null)
-                {
-                    StructureStable s = structure.GetComponent<StructureStable>();
-                    s.setIsSelected(false);
-                }
-                else if (structure.GetComponent<StructureAirstrip>() != null)
-                {
-                    StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
-                    s.setIsSelected(false);
-                }
+                // unselect the structure using its script
+                Structure s = structure.GetComponent<Structure>();
+                s.setIsSelected(false);
             }
         }
+
+        // otherwise check for left mouse click to unselect
         else
         {
             foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
             {
-                if (structure.GetComponent<StructureBarracks>() != null)
-                {
-                    StructureBarracks s = structure.GetComponent<StructureBarracks>();
+                    Structure s = structure.GetComponent<Structure>();
+
+                    // if the user clicked anywhere not on the structure, unselect it
                     if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         s.setIsSelected(false);
                     }
-                }
-                else if (structure.GetComponent<StructureFactory>() != null)
-                {
-                    StructureFactory s = structure.GetComponent<StructureFactory>();
-                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        s.setIsSelected(false);
-                    }
-                }
-                else if (structure.GetComponent<StructureStable>() != null)
-                {
-                    StructureStable s = structure.GetComponent<StructureStable>();
-                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        s.setIsSelected(false);
-                    }
-                }
-                else if (structure.GetComponent<StructureAirstrip>() != null)
-                {
-                    StructureAirstrip s = structure.GetComponent<StructureAirstrip>();
-                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        s.setIsSelected(false);
-                    }
-                }
+   
                 this.selectedStructures.Clear();
             }
         }
-
-
-        DebugPrintSelected();
-
-
-
     }
 
-    void DebugPrintSelected()
-    {
-        foreach (GameObject structure in this.selectedStructures)
-        {
-            Debug.Log(structure.name);
-        }
-    }
 }
 
 
