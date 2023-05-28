@@ -61,7 +61,7 @@ public class StructureManager : MonoBehaviour
         UnselectStructure();
         BuildStructure();
         SelectStructureClick();
-        DrawPlaceholder();
+        //DrawPlaceholder();
         //  BuildBarracks();
     }
 
