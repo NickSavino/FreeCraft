@@ -11,8 +11,6 @@ public class Unit : MonoBehaviour, UnitMethods
     [SerializeField] public UnitFields fields;
     protected GameObject selected_unit;
     private int collisions;
-    //CREATED NEED MERGE
-
 
 
 
@@ -32,6 +30,7 @@ public class Unit : MonoBehaviour, UnitMethods
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+
     {
         ++collisions;
     }
@@ -49,7 +48,6 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         //fields.position = transform.position;
         //fields.target_position = transform.position;
-
     }
 
     // Update is called once per frame
@@ -109,11 +107,13 @@ public class Unit : MonoBehaviour, UnitMethods
         fields.target_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
+
     public void SetDestination(Vector3 spawnPoint)
     {
         fields.target_position = spawnPoint;
         transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
+
 
 
 
