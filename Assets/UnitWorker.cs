@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class UnitWorker : Unit
 {
+    // miningSpeed of unit. Math needs to be tweaked
     public int miningSpeed;
     public int inventorySize;
 
+    //how many items the worker unit currently has
+    public double currentInv;
+
+
+    //deposit that the worker is currently mining
     public ResourceBase targetDeposit;
 
 
@@ -17,12 +23,22 @@ public class UnitWorker : Unit
         
         //Checks to see if object is a resource, calling harvest funciton if true
         Collider2D collider = Physics2D.OverlapPoint(fields.target_position);
+        
         if (collider != null )
         {
             targetDeposit = collider.GetComponent<ResourceBase>();
+            //if component exists, call harvest. checks if inventory is maxed out 
             if (targetDeposit != null)
             {
+                if (currentInv >= inventorySize)
+                {
+                    currentInv = (int)currentInv;
+                    DepositResource();
+                }
                 Harvest();
+            } else
+            {
+                HaltUnit();
             }
         }
         
@@ -40,11 +56,16 @@ public class UnitWorker : Unit
     }
     public void Harvest()
     {
+        if (currentInv >= inventorySize)
+        {
+            return;
+        }
         targetDeposit.MineResource(miningSpeed, this);
+        Debug.Log("Current Inv Size: " + currentInv);
     }
 
     public void DepositResource()
     {
-
+        Debug.Log("Depositing Resource");
     }
 }

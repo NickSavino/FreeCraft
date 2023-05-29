@@ -14,7 +14,7 @@ public class ResourceBase : MonoBehaviour
     public ResourceType resourceType;
     
     //How many resources are left in the deposit
-    [SerializeField] public int remainingResources;
+    [SerializeField] public double remainingResources;
 
 
     //UnityEvent that is invoked when remainingResources is changed
@@ -33,16 +33,24 @@ public class ResourceBase : MonoBehaviour
         OnDepletion();
     }
 
-    public void MineResource(int amount, Unit gatheringUnit)
+
+    /*
+     * Summary: using UnityEvent callbacks, this function handles how many resources to remove from the deposit,
+     * adding that amount to the players inventory
+     */
+    public void MineResource(int miningSpeed, UnitWorker gatheringUnit)
     {
-        remainingResources -= amount;
-        int resourcesMined = amount;
+        
+        remainingResources -= miningSpeed * 0.5f;
+        double resourcesMined = miningSpeed * 0.5f;
 
 
         if (onQuantityChange!= null)
         {
             onQuantityChange.Invoke();
         }
+
+        gatheringUnit.currentInv += resourcesMined;
     }
 
     

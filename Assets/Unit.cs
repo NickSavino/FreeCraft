@@ -53,6 +53,8 @@ public class Unit : MonoBehaviour, UnitMethods
         {
                 moveUnit();
         }
+
+        fields.position = transform.position;
     }
 
     void takeDamage() {
@@ -63,6 +65,12 @@ public class Unit : MonoBehaviour, UnitMethods
         //called when a units health reaches zero
     }
 
+    public virtual void HaltUnit()
+    {
+        Debug.Log("Halting Unit");
+        fields.target_position = fields.position;
+        transform.position = fields.position;
+    }
 
 
     public virtual void moveUnit()
