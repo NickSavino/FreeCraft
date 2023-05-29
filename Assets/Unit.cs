@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,9 @@ public class Unit : MonoBehaviour, UnitMethods
     protected GameObject selected_unit;
     protected int collisions;
 
-
+    public Teams team;
+    public Player player;
+    public UnitType unitType;
 
     private void Awake()
     {
@@ -108,3 +111,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
 }
+
+
+
