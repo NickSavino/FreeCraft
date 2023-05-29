@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,12 +8,13 @@ using UnityEngine;
 public class Unit : MonoBehaviour, UnitMethods
 {
 
-
     [SerializeField] public UnitFields fields;
     protected GameObject selected_unit;
-    private int collisions;
+    protected int collisions;
 
-
+    public Teams team;
+    public Player player;
+    public UnitType unitType;
 
     private void Awake()
     {
@@ -58,6 +60,8 @@ public class Unit : MonoBehaviour, UnitMethods
         {
                 moveUnit();
         }
+
+        fields.position = transform.position;
     }
 
     void takeDamage() {
@@ -68,9 +72,15 @@ public class Unit : MonoBehaviour, UnitMethods
         //called when a units health reaches zero
     }
 
+    public virtual void HaltUnit()
+    {
+        Debug.Log("Halting Unit");
+        fields.target_position = fields.position;
+        transform.position = fields.position;
+    }
 
 
-    public void moveUnit()
+    public virtual void moveUnit()
     {
 
         // check to see if the unit is within range to destination and its not colliding with anything
@@ -81,12 +91,9 @@ public class Unit : MonoBehaviour, UnitMethods
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
         }
-
-
-
     }
 
-    public void moveUnit(Vector3 target_position)
+    public virtual void moveUnit(Vector3 target_position)
     {
 
         //handles unit movement
@@ -108,6 +115,7 @@ public class Unit : MonoBehaviour, UnitMethods
     }
 
 
+
     public void SetDestination(Vector3 spawnPoint)
     {
         fields.target_position = spawnPoint;
@@ -124,3 +132,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
 }
+
+
+

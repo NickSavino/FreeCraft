@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class UnitCavalry : Unit
 {
+    private Rigidbody2D rigidBody;
+    private new BoxCollider2D collider;
+
+
+
 
 }

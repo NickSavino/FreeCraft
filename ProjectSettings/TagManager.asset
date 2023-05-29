@@ -7,11 +7,12 @@ TagManager:
   - SelectionBox
   - Unit
   - Structure
+  - Resource
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Resource
   - Water
   - UI
   - 
