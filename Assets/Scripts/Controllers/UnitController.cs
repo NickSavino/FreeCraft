@@ -30,6 +30,7 @@ public class UnitController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
 
+            //creates an array of all collider 
             Collider2D[] collider2DArray = Physics2D.OverlapAreaAll(this.startPosition, getMousePos());
 
 
@@ -56,10 +57,26 @@ public class UnitController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            Unit target = null;
+            //Creates a collider at rightclick point, fetches unit componenet
+            Collider2D collider = Physics2D.OverlapPoint(getMousePos());
+            if (collider != null)
+            {
+                target = collider.GetComponent<Unit>();
+            }
+
             foreach (Unit unit in selectedUnits)
             {
                 unit.moveUnit(getMousePos());
+
+                //if target is in fact a unit, attack
+                if (target != null)
+                {
+                    unit.targetUnit = target;
+                    unit.attackUnit();
+                }
             }
+            
         }
     }
 

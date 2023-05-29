@@ -16,6 +16,10 @@ public class Unit : MonoBehaviour, UnitMethods
     public Player player;
     public UnitType unitType;
 
+
+    //current targetUnit 
+    public Unit targetUnit;
+
     private void Awake()
     {
         selected_unit = transform.Find("Selected").gameObject;
@@ -54,7 +58,16 @@ public class Unit : MonoBehaviour, UnitMethods
 
     // Update is called once per frame
     void Update() {
-      
+
+        if (targetUnit != null)
+        {
+            attackUnit();
+        }
+
+        if (fields.health <= 0 )
+        {
+            onDeath();
+        }
 
         if (transform.position != fields.target_position)
         {
@@ -64,12 +77,14 @@ public class Unit : MonoBehaviour, UnitMethods
         fields.position = transform.position;
     }
 
-    public virtual void takeDamage() {
+    public virtual void takeDamage(int damage) {
         //handles unit taking health
+        fields.health -= damage;
     }
 
     public virtual void onDeath() {
         //called when a units health reaches zero
+        Destroy(this.gameObject);
     }
 
     public virtual void HaltUnit()
@@ -102,8 +117,20 @@ public class Unit : MonoBehaviour, UnitMethods
         transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
 
+
+    /**
+     * Handles unit attacking, uses the class member 'targetUnit' to determine where to deal damage
+     */
     public virtual void attackUnit() {
-        //handles unit performing attacks
+
+        //if targetUnit exists and they are not on the same team, cause unit to take damage
+        if (this.team != targetUnit.team)
+        {
+            targetUnit.takeDamage(fields.attack);
+        }
+
+
+
     }
 
 
