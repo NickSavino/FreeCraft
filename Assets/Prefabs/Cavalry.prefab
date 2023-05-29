@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6439062573576357319}
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
-  - component: {fileID: 7497051977153947871}
-  - component: {fileID: 6168073128999573771}
+  - component: {fileID: 7058732286067930390}
+  - component: {fileID: 2224557969632002693}
   m_Layer: 0
   m_Name: Cavalry
   m_TagString: Unit
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6439062573576357372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.933, y: 0.846, z: 0}
+  m_LocalPosition: {x: -2.99, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7497051977153947871
+--- !u!114 &7058732286067930390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,19 +145,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8185244897ca10b478d770062deb84ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 100
   attack: 0
   defense: 0
   uid: 0
-  movement_speed: 10
+  movement_speed: 15
   attack_range: 0
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
---- !u!114 &6168073128999573771
+--- !u!114 &2224557969632002693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,10 +166,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502a836c273a6406e8abd2bd1ace5bfe, type: 3}
+  m_Script: {fileID: 11500000, guid: 77c6c21bc10e17642a2e1706cf7e2d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fields: {fileID: 7497051977153947871}
+  fields: {fileID: 7058732286067930390}
+  team: 0
+  player: 0
+  unitType: 0
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0

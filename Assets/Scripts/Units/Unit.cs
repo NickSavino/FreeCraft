@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,12 +8,17 @@ using UnityEngine;
 public class Unit : MonoBehaviour, UnitMethods
 {
 
-
     [SerializeField] public UnitFields fields;
     protected GameObject selected_unit;
-    private int collisions;
+    protected int collisions;
+
+    public Teams team;
+    public Player player;
+    public UnitType unitType;
 
 
+    //current targetUnit 
+    public Unit targetUnit;
 
     private void Awake()
     {
@@ -52,25 +58,44 @@ public class Unit : MonoBehaviour, UnitMethods
 
     // Update is called once per frame
     void Update() {
-      
+
+        if (targetUnit != null)
+        {
+            attackUnit();
+        }
+
+        if (fields.health <= 0 )
+        {
+            onDeath();
+        }
 
         if (transform.position != fields.target_position)
         {
                 moveUnit();
         }
+
+        fields.position = transform.position;
     }
 
-    void takeDamage() {
+    public virtual void takeDamage(int damage) {
         //handles unit taking health
+        fields.health -= damage;
     }
 
-    void onDeath() {
+    public virtual void onDeath() {
         //called when a units health reaches zero
+        Destroy(this.gameObject);
+    }
+
+    public virtual void HaltUnit()
+    {
+        Debug.Log("Halting Unit");
+        fields.target_position = fields.position;
+        transform.position = fields.position;
     }
 
 
-
-    public void moveUnit()
+    public virtual void moveUnit()
     {
 
         // check to see if the unit is within range to destination and its not colliding with anything
@@ -81,12 +106,9 @@ public class Unit : MonoBehaviour, UnitMethods
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
         }
-
-
-
     }
 
-    public void moveUnit(Vector3 target_position)
+    public virtual void moveUnit(Vector3 target_position)
     {
 
         //handles unit movement
@@ -95,8 +117,20 @@ public class Unit : MonoBehaviour, UnitMethods
         transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
 
-    void attackUnit() {
-        //handles unit performing attacks
+
+    /**
+     * Handles unit attacking, uses the class member 'targetUnit' to determine where to deal damage
+     */
+    public virtual void attackUnit() {
+
+        //if targetUnit exists and they are not on the same team, cause unit to take damage
+        if (this.team != targetUnit.team)
+        {
+            targetUnit.takeDamage(fields.attack);
+        }
+
+
+
     }
 
 
@@ -104,9 +138,8 @@ public class Unit : MonoBehaviour, UnitMethods
     //  this may be good to have public so that the GameController class can move units?
     public void SetDestination()
     {
-        fields.target_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
-
 
     public void SetDestination(Vector3 spawnPoint)
     {
@@ -124,3 +157,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
 }
+
+
+

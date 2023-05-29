@@ -25,7 +25,7 @@ public class Structure : MonoBehaviour
 
     // TODO: Should maybe go in awake, so it is allocated on GameObject.Instantiate
     // This requires converting structure spawns to using prefabs
-    protected UnitFields fields = new UnitFields();
+    [SerializeField] protected UnitFields fields;
 
 
 

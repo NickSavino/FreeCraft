@@ -46,7 +46,7 @@ public class MainMenuControl : MonoBehaviour
 
     void GoToSinglePlayer()
     {
-        SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("NickTestScene", LoadSceneMode.Single);
     }
 
     // Update is called once per frame
