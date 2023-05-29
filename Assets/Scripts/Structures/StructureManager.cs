@@ -28,6 +28,7 @@ public class StructureManager : MonoBehaviour
     List<GameObject> selectedStructures;
 
     // specific structure selection flags
+    bool headquartersSelected;
     bool barracksSelected;
     bool factorySelected;
     bool stableSelected;
@@ -58,6 +59,7 @@ public class StructureManager : MonoBehaviour
         SelectStable();
         SelectBarracks();
         SelectFactory();
+        SelectHeadquarters();
         UnselectStructure();
         BuildStructure();
         SelectStructureClick();
@@ -142,6 +144,21 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    void SelectHeadquarters()
+    {
+        if (Input.GetKeyDown(KeyCode.N) && !this.templateActive)
+        {
+            // indicate that a barracks is selected
+            this.headquartersSelected = true;
+
+            // set template texture to barracks sprite
+            this.template = Resources.Load<Texture2D>("sprite_headquarters");
+
+            // indicate that the user is currently choosing where to place a structure
+            this.templateActive = true;
+        }
+    }
+
     /**
      * Places a GameObject for the desired structure into the scene.
      * 
@@ -185,6 +202,11 @@ public class StructureManager : MonoBehaviour
                 baseObject = new GameObject();
                 sprite = Resources.Load<Sprite>("sprite_airstrip");
                 baseObject.AddComponent<StructureAirstrip>();
+            } else if (this.headquartersSelected)
+            {
+                baseObject = new GameObject();
+                sprite = Resources.Load<Sprite>("sprite_headquarters");
+                baseObject.AddComponent<StructureHeadquarters>();
             }
 
             // catch-all else condition, may not be necessary
