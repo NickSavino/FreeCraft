@@ -18,6 +18,9 @@ public class UnitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        HaltListener();
+
         if (Input.GetMouseButtonDown(0))
         {
             //LMB Pressed
@@ -56,6 +59,17 @@ public class UnitController : MonoBehaviour
             foreach (Unit unit in selectedUnits)
             {
                 unit.moveUnit(getMousePos());
+            }
+        }
+    }
+
+    private void HaltListener()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            foreach (Unit unit in selectedUnits)
+            {
+                unit.fields.target_position = unit.transform.position;
             }
         }
     }

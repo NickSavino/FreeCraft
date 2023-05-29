@@ -64,11 +64,11 @@ public class Unit : MonoBehaviour, UnitMethods
         fields.position = transform.position;
     }
 
-    public virtual void takeDamage() {
+    void takeDamage() {
         //handles unit taking health
     }
 
-    public virtual void onDeath() {
+    void onDeath() {
         //called when a units health reaches zero
     }
 
@@ -102,18 +102,20 @@ public class Unit : MonoBehaviour, UnitMethods
         transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
     }
 
-    public virtual void attackUnit() {
+    void attackUnit() {
         //handles unit performing attacks
     }
 
 
     // set the target position for a unit
     //  this may be good to have public so that the GameController class can move units?
-    public void SetDestination()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
-    }
+ 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d9c733cc8b0966da198f8fda932677b71d480bb3
     public void SetDestination(Vector3 spawnPoint)
     {
         fields.target_position = spawnPoint;
