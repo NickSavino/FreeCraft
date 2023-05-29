@@ -8,4 +8,9 @@ public class UnitCavalry : Unit
     private new BoxCollider2D collider;
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d9c733cc8b0966da198f8fda932677b71d480bb3
 }

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6439062573576357319}
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
-  - component: {fileID: 1950575880834536848}
-  - component: {fileID: 7497051977153947871}
+  - component: {fileID: 7254208680976768583}
+  - component: {fileID: 6011475335516189050}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Unit
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1950575880834536848
+--- !u!114 &7254208680976768583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,24 +145,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92e4e04713fd6f0498e74871269e2002, type: 3}
+  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fields: {fileID: 7497051977153947871}
---- !u!114 &7497051977153947871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6439062573576357372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8185244897ca10b478d770062deb84ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  attack: 0
+  health: 100
+  attack: 1
   defense: 0
   uid: 0
   movement_speed: 10
@@ -170,6 +157,22 @@ MonoBehaviour:
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
+--- !u!114 &6011475335516189050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439062573576357372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320af425023983e4ab43f3c7d20bd946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields: {fileID: 7254208680976768583}
+  team: 0
+  player: 0
+  unitType: 0
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0
