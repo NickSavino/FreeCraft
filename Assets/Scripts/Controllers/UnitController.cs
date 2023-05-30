@@ -73,7 +73,6 @@ public class UnitController : MonoBehaviour
                 if (target != null)
                 {
                     unit.targetUnit = target;
-                    unit.attackUnit();
                 }
             }
             
