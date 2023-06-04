@@ -11,12 +11,12 @@ public class UnitFields : MonoBehaviour
     public int uid; //Discussion on implentation required
 
     public float movement_speed;
-    public float attack_range;
+    public float attackRange;
+    //How long a unit must wait in between attacks, needs to be reworked and implemented as attack speed
+    public float attackDelay;
 
     public string unitName;
 
     public Vector3 position;
     public Vector3 target_position;
-
-  
 }

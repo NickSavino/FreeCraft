@@ -7,7 +7,7 @@ public class UnitController : MonoBehaviour
 
     private Vector3 startPosition;
 
-    public List<Unit> selectedUnits;
+    private List<Unit> selectedUnits;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +73,6 @@ public class UnitController : MonoBehaviour
                 if (target != null)
                 {
                     unit.targetUnit = target;
-                    unit.attackUnit();
                 }
             }
             
@@ -100,8 +99,4 @@ public class UnitController : MonoBehaviour
         
         return Camera.main.ScreenToWorldPoint(mousePos);
     }
-
-
-
-
 }

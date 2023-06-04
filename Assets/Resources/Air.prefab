@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6439062573576357319}
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
-  - component: {fileID: 775217504066601006}
-  - component: {fileID: 2498869848087516654}
+  - component: {fileID: 7497051977153947871}
+  - component: {fileID: -7031615276022286608}
   m_Layer: 0
   m_Name: Air
   m_TagString: Unit
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &775217504066601006
+--- !u!114 &7497051977153947871
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,35 +145,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40ba9efd30a91641aacfff560620e21, type: 3}
+  m_Script: {fileID: 11500000, guid: 8185244897ca10b478d770062deb84ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fields: {fileID: 2498869848087516654}
-  team: 0
-  player: 0
-  unitType: 0
-  targetUnit: {fileID: 0}
---- !u!114 &2498869848087516654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6439062573576357372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
+  health: 0
   attack: 0
   defense: 0
   uid: 0
   movement_speed: 10
   attack_range: 0
   unitName: 
-  position: {x: 0, y: 0, z: 0}
-  target_position: {x: 0, y: 0, z: 0}
+  position: {x: 8.237933, y: 0.17355227, z: 0}
+  target_position: {x: 10.968485, y: -4.6627626, z: 0}
+--- !u!114 &-7031615276022286608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439062573576357372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0fd15cd9ee6c8c44ae3b8733fa50151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields: {fileID: 7497051977153947871}
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0
