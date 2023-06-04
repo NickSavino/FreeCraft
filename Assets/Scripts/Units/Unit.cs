@@ -4,21 +4,32 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Unit : MonoBehaviour, UnitMethods
 {
 
+    //import unit stats
     [SerializeField] public UnitFields fields;
     protected GameObject selected_unit;
     protected int collisions;
 
+    //enums describing discrete unit values
     public Teams team;
     public Player player;
     public UnitType unitType;
 
 
+    //callback invoked when user takes damage
+    public UnityEvent onHealthChange;
+
     //current targetUnit 
     public Unit targetUnit;
+
+
+    //used to keep track of when unit last attacked
+    public float currentAttackTime;
+    public float prevAttackTime;
 
     private void Awake()
     {
@@ -59,9 +70,17 @@ public class Unit : MonoBehaviour, UnitMethods
     // Update is called once per frame
     void Update() {
 
+
+        //if unit has a target unit and the more time has passed then the attack delay, then attack unit
         if (targetUnit != null)
         {
-            attackUnit();
+            currentAttackTime = Time.time;
+            //currentAttackTime - prevAttackTime = Time elapsed since last attack
+            if (currentAttackTime - prevAttackTime > fields.attackDelay)
+            {
+                attackUnit();
+                prevAttackTime = Time.time;
+            }
         }
 
         if (fields.health <= 0 )
@@ -80,6 +99,7 @@ public class Unit : MonoBehaviour, UnitMethods
     public virtual void takeDamage(int damage) {
         //handles unit taking health
         fields.health -= damage;
+        onHealthChange.Invoke();
     }
 
     public virtual void onDeath() {
@@ -89,7 +109,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
     public virtual void HaltUnit()
     {
-        Debug.Log("Halting Unit");
         fields.target_position = fields.position;
         transform.position = fields.position;
     }
@@ -122,6 +141,12 @@ public class Unit : MonoBehaviour, UnitMethods
      * Handles unit attacking, uses the class member 'targetUnit' to determine where to deal damage
      */
     public virtual void attackUnit() {
+
+        float distance = Vector3.Distance(transform.position, targetUnit.transform.position);
+        if (distance > fields.attackRange)
+        {
+            return;
+        }
 
         //if targetUnit exists and they are not on the same team, cause unit to take damage
         if (this.team != targetUnit.team)
