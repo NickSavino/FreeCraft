@@ -7,7 +7,7 @@ public class UnitController : MonoBehaviour
 
     private Vector3 startPosition;
 
-    private List<Unit> selectedUnits;
+    public List<Unit> selectedUnits;
     // Start is called before the first frame update
     void Start()
     {
