@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6439062573576357319}
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
-  - component: {fileID: 7497051977153947871}
-  - component: {fileID: 9053863703601568002}
+  - component: {fileID: 1737790499543810236}
+  - component: {fileID: 88755816544512750}
   m_Layer: 0
   m_Name: Artillery
   m_TagString: Unit
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7497051977153947871
+--- !u!114 &1737790499543810236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,31 +145,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8185244897ca10b478d770062deb84ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 34b65d6e34c876245a8463eb148fd1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  fields: {fileID: 88755816544512750}
+  team: 0
+  player: 0
+  unitType: 0
+  targetUnit: {fileID: 0}
+--- !u!114 &88755816544512750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439062573576357372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
   attack: 0
   defense: 0
   uid: 0
   movement_speed: 10
   attack_range: 0
   unitName: 
-  position: {x: 8.237933, y: 0.17355227, z: 0}
-  target_position: {x: 10.968485, y: -4.6627626, z: 0}
---- !u!114 &9053863703601568002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6439062573576357372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12df15894e616c54a8c97ed55bd583e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fields: {fileID: 7497051977153947871}
+  position: {x: 0, y: 0, z: 0}
+  target_position: {x: 0, y: 0, z: 0}
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,12 @@ TagManager:
   - Unit
   - Structure
   - Resource
+  - PauseMenu
+  - HUD
+  - UnitController
+  - Portrait
+  - SmallPortrait
+  - ActiveHealth
   layers:
   - Default
   - TransparentFX
