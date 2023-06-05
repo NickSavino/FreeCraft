@@ -37,9 +37,11 @@ public class Unit : MonoBehaviour, UnitMethods
         SetSelectedVisible(false);
 
         fields.position = transform.position;
-      //  fields.target_position = transform.position;
+        //  fields.target_position = transform.position;
 
     }
+
+
 
     public void SetSelectedVisible(bool visible)
     {
@@ -72,26 +74,22 @@ public class Unit : MonoBehaviour, UnitMethods
 
 
         //if unit has a target unit and the more time has passed then the attack delay, then attack unit
-        if (targetUnit != null)
-        {
-            currentAttackTime = Time.time;
-            //currentAttackTime - prevAttackTime = Time elapsed since last attack
-            if (currentAttackTime - prevAttackTime > fields.attackDelay)
-            {
-                attackUnit();
-                prevAttackTime = Time.time;
-            }
-        }
+        //if (targetUnit != null)
+        //{
+        //    currentAttackTime = Time.time;
+        //    //currentAttackTime - prevAttackTime = Time elapsed since last attack
+        //    if (currentAttackTime - prevAttackTime > fields.attackDelay)
+        //    {
+        //    prevAttackTime = Time.time;
+        //    }
+        //}
 
-        if (fields.health <= 0 )
-        {
-            onDeath();
-        }
+        attackUnit();
 
-        if (transform.position != fields.target_position)
-        {
-                moveUnit();
-        }
+        onDeath();
+
+        moveUnit();
+
 
         fields.position = transform.position;
     }
@@ -103,8 +101,12 @@ public class Unit : MonoBehaviour, UnitMethods
     }
 
     public virtual void onDeath() {
-        //called when a units health reaches zero
-        Destroy(this.gameObject);
+        if (fields.health <= 0)
+        {
+            //called when a units health reaches zero
+            Destroy(this.gameObject);
+        }
+
     }
 
     public virtual void HaltUnit()
@@ -116,16 +118,18 @@ public class Unit : MonoBehaviour, UnitMethods
 
     public virtual void moveUnit()
     {
-
-        // check to see if the unit is within range to destination and its not colliding with anything
-        bool closeEnough = (fields.target_position - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
-
-        // if the unit is not at its target position and its not close enough, keep moving
-        if (transform.position != fields.target_position && !closeEnough)
+        if (transform.position != fields.target_position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
+            // check to see if the unit is within range to destination and its not colliding with anything
+            bool closeEnough = (fields.target_position - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
+
+            // if the unit is not at its target position and its not close enough, keep moving
+            if (transform.position != fields.target_position && !closeEnough)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
+            }
         }
-    }
+       }
 
     public virtual void moveUnit(Vector3 target_position)
     {
@@ -142,19 +146,29 @@ public class Unit : MonoBehaviour, UnitMethods
      */
     public virtual void attackUnit() {
 
-        float distance = Vector3.Distance(transform.position, targetUnit.transform.position);
-        if (distance > fields.attackRange)
+        if (targetUnit != null)
         {
-            return;
+            currentAttackTime = Time.time;
+            //currentAttackTime - prevAttackTime = Time elapsed since last attack
+            if (currentAttackTime - prevAttackTime > fields.attackDelay)
+            {
+
+
+                float distance = Vector3.Distance(transform.position, targetUnit.transform.position);
+                if (distance > fields.attackRange)
+                {
+                    return;
+                }
+
+                //if targetUnit exists and they are not on the same team, cause unit to take damage
+                if (this.team != targetUnit.team)
+                {
+                    targetUnit.takeDamage(fields.attack);
+                }
+
+                prevAttackTime = Time.time;
+            }
         }
-
-        //if targetUnit exists and they are not on the same team, cause unit to take damage
-        if (this.team != targetUnit.team)
-        {
-            targetUnit.takeDamage(fields.attack);
-        }
-
-
 
     }
 
