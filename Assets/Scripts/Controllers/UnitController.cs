@@ -7,17 +7,21 @@ public class UnitController : MonoBehaviour
 
     private Vector3 startPosition;
 
+
     GameObject hud;
     HUDController hudC;
 
     public List<Unit> selectedUnits;
+
     // Start is called before the first frame update
     void Start()
     {
         selectedUnits = new List<Unit>();
         Debug.Log(Input.mousePresent);
+
         hud = GameObject.FindGameObjectWithTag("HUD");
         hudC = hud.GetComponent<HUDController>();
+
     }
 
     // Update is called once per frame
@@ -25,6 +29,7 @@ public class UnitController : MonoBehaviour
     {
 
         HaltListener();
+
 
         SelectUnits();
 
@@ -56,6 +61,7 @@ public class UnitController : MonoBehaviour
 
     private void SelectUnits()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
             //LMB Pressed
@@ -89,11 +95,12 @@ public class UnitController : MonoBehaviour
                 }
             }
         }
-    }
+
 
 
     private void MoveOrAttack()
     {
+
         if (Input.GetMouseButtonDown(1))
         {
             Unit target = null;
@@ -114,6 +121,7 @@ public class UnitController : MonoBehaviour
                     unit.targetUnit = target;
                 }
             }
+
 
         }
     }
@@ -141,5 +149,6 @@ public class UnitController : MonoBehaviour
         // clear selected units
         this.selectedUnits.Clear();
     }
+
 
 }
