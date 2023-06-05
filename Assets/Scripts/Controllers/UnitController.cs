@@ -7,12 +7,21 @@ public class UnitController : MonoBehaviour
 
     private Vector3 startPosition;
 
-    private List<Unit> selectedUnits;
+
+    GameObject hud;
+    HUDController hudC;
+
+    public List<Unit> selectedUnits;
+
     // Start is called before the first frame update
     void Start()
     {
         selectedUnits = new List<Unit>();
         Debug.Log(Input.mousePresent);
+
+        hud = GameObject.FindGameObjectWithTag("HUD");
+        hudC = hud.GetComponent<HUDController>();
+
     }
 
     // Update is called once per frame
@@ -20,6 +29,38 @@ public class UnitController : MonoBehaviour
     {
 
         HaltListener();
+
+
+        SelectUnits();
+
+        MoveOrAttack(); 
+        
+    }
+
+    private void HaltListener()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            foreach (Unit unit in selectedUnits)
+            {
+                unit.fields.target_position = unit.transform.position;
+            }
+        }
+    }
+
+    private Vector3 getMousePos()
+    {
+        //private helper function returns mouse position
+
+        var mousePos = Input.mousePosition;
+        mousePos.z = -Camera.main.transform.position.z;
+        
+        return Camera.main.ScreenToWorldPoint(mousePos);
+    }
+
+
+    private void SelectUnits()
+    {
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -45,7 +86,7 @@ public class UnitController : MonoBehaviour
             // add new selected units
             foreach (Collider2D collider2D in collider2DArray)
             {
-               
+
                 Unit unit = collider2D.GetComponent<Unit>();
                 if (unit != null)
                 {
@@ -54,6 +95,11 @@ public class UnitController : MonoBehaviour
                 }
             }
         }
+
+
+
+    private void MoveOrAttack()
+    {
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -75,28 +121,34 @@ public class UnitController : MonoBehaviour
                     unit.targetUnit = target;
                 }
             }
-            
+
+
         }
     }
 
-    private void HaltListener()
+    public void SelectControlGroup()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            foreach (Unit unit in selectedUnits)
-            {
-                unit.fields.target_position = unit.transform.position;
-            }
-        }
-    }
 
-    private Vector3 getMousePos()
-    {
-        //private helper function returns mouse position
-
-        var mousePos = Input.mousePosition;
-        mousePos.z = -Camera.main.transform.position.z;
+        // HUDController sets this class's selected unit field before this function is called
         
-        return Camera.main.ScreenToWorldPoint(mousePos);
+        // add new selected units
+        foreach (Unit unit in this.selectedUnits)
+        {
+            unit.SetSelectedVisible(true);
+            selectedUnits.Add(unit);
+        }
     }
+
+    public void ClearSelected()
+    {
+        //deselect all units
+        foreach (Unit unit in selectedUnits)
+        {
+            unit.SetSelectedVisible(false);
+        }
+        // clear selected units
+        this.selectedUnits.Clear();
+    }
+
+
 }
