@@ -73,6 +73,7 @@ public class Unit : MonoBehaviour, UnitMethods
     void Update() {
 
 
+
         //if unit has a target unit and the more time has passed then the attack delay, then attack unit
         //if (targetUnit != null)
         //{
@@ -88,7 +89,9 @@ public class Unit : MonoBehaviour, UnitMethods
 
         onDeath();
 
+
         moveUnit();
+
 
 
         fields.position = transform.position;
@@ -106,6 +109,7 @@ public class Unit : MonoBehaviour, UnitMethods
             //called when a units health reaches zero
             Destroy(this.gameObject);
         }
+
 
     }
 
@@ -131,6 +135,7 @@ public class Unit : MonoBehaviour, UnitMethods
         }
        }
 
+
     public virtual void moveUnit(Vector3 target_position)
     {
 
@@ -145,6 +150,7 @@ public class Unit : MonoBehaviour, UnitMethods
      * Handles unit attacking, uses the class member 'targetUnit' to determine where to deal damage
      */
     public virtual void attackUnit() {
+
 
         if (targetUnit != null)
         {
@@ -169,6 +175,7 @@ public class Unit : MonoBehaviour, UnitMethods
                 prevAttackTime = Time.time;
             }
         }
+
 
     }
 
