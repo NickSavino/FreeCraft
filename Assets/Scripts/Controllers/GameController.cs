@@ -51,10 +51,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         UpdateSelectionBox();
-
-      //  MoveSelectedUnits();
-        //  KeepMovingSelectedUnits();
-
     }
 
     private void OnGUI()

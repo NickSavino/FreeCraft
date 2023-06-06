@@ -20,7 +20,10 @@ public class UnitController : MonoBehaviour
         Debug.Log(Input.mousePresent);
 
         hud = GameObject.FindGameObjectWithTag("HUD");
-        hudC = hud.GetComponent<HUDController>();
+        if ( hud != null )
+        {
+            hudC = hud.GetComponent<HUDController>();
+        }
 
     }
 
@@ -96,7 +99,7 @@ public class UnitController : MonoBehaviour
             }
         }
 
-
+    }
 
     private void MoveOrAttack()
     {
