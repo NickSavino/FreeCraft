@@ -95,6 +95,7 @@ public class UnitController : MonoBehaviour
                 }
             }
         }
+    }
 
 
 
@@ -126,13 +127,13 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    public void SelectControlGroup()
+    public void SelectControlGroup(List<Unit> group)
     {
-
+        ClearSelected();
         // HUDController sets this class's selected unit field before this function is called
         
         // add new selected units
-        foreach (Unit unit in this.selectedUnits)
+        foreach (Unit unit in group)
         {
             unit.SetSelectedVisible(true);
             selectedUnits.Add(unit);
