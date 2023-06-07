@@ -33,7 +33,8 @@ public class HUDController : MonoBehaviour
     public static readonly int MAX_UNITS_SELECTED = 16;
     public static readonly double DOUBLE_CLICK_DELAY = 0.5f;
 
-
+    private double lastTime;
+    private double tapDelay = 0.25;
 
 
 
@@ -97,6 +98,7 @@ public class HUDController : MonoBehaviour
         this.group8 = new List<Unit>();
         this.group9 = new List<Unit>();
         this.group0 = new List<Unit>();
+        lastTime = Time.realtimeSinceStartupAsDouble;
 
 
         //   InitControlGroups();
@@ -274,49 +276,48 @@ public class HUDController : MonoBehaviour
 
     private void SelectControlGroup()
     {
-        if (Input.GetKey(KeyCode.Tab))
+
+        if (DoubleTap(KeyCode.Alpha1))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group1));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group2));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group3));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group4));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group5));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group6));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group7));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group8));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group9));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                unitController.SelectControlGroup(ListShallowCopy(group0));
-            }
+            unitController.SelectControlGroup(ListShallowCopy(group1));
         }
+        else if (DoubleTap(KeyCode.Alpha2))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group2));
+        }
+        else if (DoubleTap(KeyCode.Alpha3))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group3));
+        }
+        else if (DoubleTap(KeyCode.Alpha4))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group4));
+        }
+        else if (DoubleTap(KeyCode.Alpha5))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group5));
+        }
+        else if (DoubleTap(KeyCode.Alpha6))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group6));
+        }
+        else if (DoubleTap(KeyCode.Alpha7))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group7));
+        }
+        else if (DoubleTap(KeyCode.Alpha8))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group8));
+        }
+        else if (DoubleTap(KeyCode.Alpha9))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group9));
+        }
+        else if (DoubleTap(KeyCode.Alpha0))
+        {
+            unitController.SelectControlGroup(ListShallowCopy(group0));
+        }
+        
     }
 
 
@@ -436,6 +437,23 @@ public class HUDController : MonoBehaviour
             toReturn.Add(u);
         }
         return toReturn;
+    }
+
+
+    private bool DoubleTap(KeyCode key)
+    {
+        if (Input.GetKeyDown(key))
+        {
+            double elap = Time.realtimeSinceStartupAsDouble - lastTime;
+            if (elap <= tapDelay)
+            {
+                lastTime = Time.realtimeSinceStartupAsDouble;
+                Debug.Log(elap);
+                return true;
+            }
+            lastTime = Time.realtimeSinceStartupAsDouble;
+        }
+        return false;
     }
 
 }
