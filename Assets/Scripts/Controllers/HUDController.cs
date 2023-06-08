@@ -16,37 +16,38 @@ public class HUDController : MonoBehaviour
 
     Text activeHealth;
 
-    Unit[] group1;
-    Unit[] group2;
-    Unit[] group3;
-    Unit[] group4;
-    Unit[] group5;
-    Unit[] group6;
-    Unit[] group7;
-    Unit[] group8;
-    Unit[] group9;
-    Unit[] group0;
+    List<Unit> group1;
+    List<Unit> group2;
+    List<Unit> group3;
+    List<Unit> group4;
+    List<Unit> group5;
+    List<Unit> group6;
+    List<Unit> group7;
+    List<Unit> group8;
+    List<Unit> group9;
+    List<Unit> group0;
 
     bool[] activeGroup;
     int lastSelected;
 
-    public static readonly int MAX_UNITS_SELECTED = 14;
+    public static readonly int MAX_UNITS_SELECTED = 16;
     public static readonly double DOUBLE_CLICK_DELAY = 0.5f;
 
-
+    private double lastTime;
+    private double tapDelay = 0.25;
 
 
 
     private class NumericNameSorter : IComparer<GameObject>
     {
-  
+
 
         public int Compare(GameObject x, GameObject y)
         {
             int xName = Convert.ToInt32(x.name);
             int yName = Convert.ToInt32(y.name);
 
-            if (xName  == yName)
+            if (xName == yName)
             {
                 return 0;
             }
@@ -78,18 +79,29 @@ public class HUDController : MonoBehaviour
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         hud = GameObject.FindGameObjectWithTag("HUD");
         smallPortraits = GameObject.FindGameObjectsWithTag("SmallPortrait");
-        activeHealth = GameObject.FindGameObjectWithTag("ActiveHealth").GetComponent<Text>();
+        // activeHealth = GameObject.FindGameObjectWithTag("ActiveHealth").GetComponent<Text>();
         unitController = GameObject.FindGameObjectWithTag("UnitController").GetComponent<UnitController>();
 
         lastSelected = 0;
 
         // one for each control group
-        this.activeGroup = new bool[10];
+        //    this.activeGroup = new bool[10];
+
+        this.group1 = new List<Unit>();
+        this.group2 = new List<Unit>();
+        this.group3 = new List<Unit>();
+        this.group4 = new List<Unit>();
+        this.group5 = new List<Unit>();
+        this.group3 = new List<Unit>();
+        this.group6 = new List<Unit>();
+        this.group7 = new List<Unit>();
+        this.group8 = new List<Unit>();
+        this.group9 = new List<Unit>();
+        this.group0 = new List<Unit>();
+        lastTime = Time.realtimeSinceStartupAsDouble;
 
 
-
-
-        InitControlGroups();
+        //   InitControlGroups();
         Array.Sort(smallPortraits, new NumericNameSorter());
 
         ClearActivePortrait();
@@ -102,23 +114,32 @@ public class HUDController : MonoBehaviour
         UpdateActivePortrait();
         UpdateSmallPortraits();
         SetControlGroup();
-        SelectGroup();
-       
+        SelectControlGroup();
+
+        AddToControlGroup();
+
+
+        // Debug.Log(unitController);
+
     }
 
 
     private void UpdateActivePortrait()
     {
         // Unit[] selectedUnits = SelectedUnitsShallowCopy();
-        Unit[] selectedUnits = GetSelectedGroup();
+        List<Unit> selectedUnits = unitController.selectedUnits;
+  
+
+
 
         ClearActivePortrait();
 
-        if (selectedUnits.Length != 0)
+        if (selectedUnits.Count != 0)
         {
-             hud.transform.Find("Portrait").GetComponent<Image>().sprite = selectedUnits[0].GetComponent<SpriteRenderer>().sprite;
+  
+            hud.transform.Find("Portrait").GetComponent<Image>().sprite = selectedUnits[0].GetComponent<SpriteRenderer>().sprite;
             hud.transform.Find("Portrait").GetComponent<Image>().color = Color.white;
-           // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
+            // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
 
 
         }
@@ -133,20 +154,20 @@ public class HUDController : MonoBehaviour
     private void UpdateSmallPortraits()
     {
         // Unit[] selectedUnits = SelectedUnitsShallowCopy();
-        Unit[] selectedUnits = GetSelectedGroup();
+        List<Unit> selectedUnits = unitController.selectedUnits;
+        selectedUnits.Sort(new UnitNameSorter());
+
         ClearSmallPortraits();
 
-        if (selectedUnits.Length != 0)
+        if (selectedUnits.Count != 0)
         {
-            for (int i = 0; i < MAX_UNITS_SELECTED && i < selectedUnits.Length; ++i)
+
+
+            for (int i = 0;  i < MAX_UNITS_SELECTED && i < selectedUnits.Count; ++i)
             {
                 smallPortraits[i].GetComponent<Image>().sprite = selectedUnits[i].GetComponent<SpriteRenderer>().sprite;
                 smallPortraits[i].GetComponent<Image>().color = Color.white;
             }
-        }
-        else
-        {
-            ClearSmallPortraits();
         }
     }
 
@@ -195,248 +216,244 @@ public class HUDController : MonoBehaviour
     }
 
 
-    private void InitControlGroups()
-    {
-
-        Unit[] group1 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group2 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group3 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group4 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group5 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group6 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group7 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group8 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group9 = new Unit[MAX_UNITS_SELECTED];
-        Unit[] group0 = new Unit[MAX_UNITS_SELECTED];
-    }
-
-
-
     private void SetControlGroup()
     {
-        Unit[] selectedUnits = SelectedUnitsShallowCopy();
-        int lengthDiff = MAX_UNITS_SELECTED - selectedUnits.Length;
+        if (Input.GetKey(KeyCode.CapsLock))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                group1 = ListShallowCopy(unitController.selectedUnits);
+               
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                group2 = ListShallowCopy(unitController.selectedUnits);
 
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            group1 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            group2 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            group3 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            group4 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            group5 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            group6 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            group7 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            group8 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            group9 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
-        }
-        else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            group0 = CopySelectedIntoGroup(selectedUnits, lengthDiff);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                group3 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                group4 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                group5 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                group6 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                group7 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                group8 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                group9 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                group0 = ListShallowCopy(unitController.selectedUnits);
+
+            }
+
         }
     }
 
-
-    private Unit[] GetSelectedGroup()
+    private void SelectControlGroup()
     {
-        if (activeGroup[0])
+
+        if (DoubleTap(KeyCode.Alpha1))
         {
-            return group1;
+            unitController.SelectControlGroup(ListShallowCopy(group1));
         }
-        if (activeGroup[1])
+        else if (DoubleTap(KeyCode.Alpha2))
         {
-            return group2;
+            unitController.SelectControlGroup(ListShallowCopy(group2));
         }
-        if (activeGroup[2])
+        else if (DoubleTap(KeyCode.Alpha3))
         {
-            return group3;
+            unitController.SelectControlGroup(ListShallowCopy(group3));
         }
-        if (activeGroup[3])
+        else if (DoubleTap(KeyCode.Alpha4))
         {
-            return group4;
+            unitController.SelectControlGroup(ListShallowCopy(group4));
         }
-        if (activeGroup[4])
+        else if (DoubleTap(KeyCode.Alpha5))
         {
-            return group5;
+            unitController.SelectControlGroup(ListShallowCopy(group5));
         }
-        if (activeGroup[5])
+        else if (DoubleTap(KeyCode.Alpha6))
         {
-            return group6;
+            unitController.SelectControlGroup(ListShallowCopy(group6));
         }
-        if (activeGroup[6])
+        else if (DoubleTap(KeyCode.Alpha7))
         {
-            return group7;
+            unitController.SelectControlGroup(ListShallowCopy(group7));
         }
-        if (activeGroup[7])
+        else if (DoubleTap(KeyCode.Alpha8))
         {
-            return group8;
+            unitController.SelectControlGroup(ListShallowCopy(group8));
         }
-        if (activeGroup[8])
+        else if (DoubleTap(KeyCode.Alpha9))
         {
-            return group9;
+            unitController.SelectControlGroup(ListShallowCopy(group9));
         }
-        if (activeGroup[9])
+        else if (DoubleTap(KeyCode.Alpha0))
         {
-            return group0;
+            unitController.SelectControlGroup(ListShallowCopy(group0));
         }
-        return SelectedUnitsShallowCopy();
+        
     }
 
 
-    private void SelectGroup()
+    private void AddToControlGroup()
     {
-
-        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            activeGroup[lastSelected] = false;
-            activeGroup[0] = true;
-            this.lastSelected = 0;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group1.Contains(u)))
+                    {
+                        group1.Add(u);
+                    }
+                }
+            }
 
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group2.Contains(u)))
+                    {
+                        group2.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group3.Contains(u)))
+                    {
+                        group3.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group4.Contains(u)))
+                    {
+                        group4.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group5.Contains(u)))
+                    {
+                        group5.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group6.Contains(u)))
+                    {
+                        group6.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group7.Contains(u)))
+                    {
+                        group7.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group8.Contains(u)))
+                    {
+                        group8.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group9.Contains(u)))
+                    {
+                        group9.Add(u);
+                    }
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                foreach (Unit u in unitController.selectedUnits)
+                {
+                    if (!(group0.Contains(u)))
+                    {
+                        group0.Add(u);
+                    }
+                }
+            }
         }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[1] = true;
-   
-            this.lastSelected = 1;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[2] = true;
-            this.lastSelected = 2;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[3] = true;
-            this.lastSelected = 3;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[4] = true;
-            this.lastSelected = 4;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[5] = true;
-            this.lastSelected = 5;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[6] = true;
-            this.lastSelected = 6;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[7] = true;
-            this.lastSelected = 7;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[8] = true;
-            this.lastSelected = 8;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            activeGroup[lastSelected] = false;
-            activeGroup[9] = true;
-            this.lastSelected = 9;
-            unitController.ClearSelected();
-            unitController.selectedUnits = UnitArrayToList(GetSelectedGroup());
-            unitController.SelectControlGroup();
-
-        }
-
     }
 
-
-    private List<Unit> UnitArrayToList(Unit[] arr)
+    private List<Unit> ListShallowCopy(List<Unit> src)
     {
-        List<Unit> list = new List<Unit>();
-
-        foreach (Unit u in arr)
+        List<Unit> toReturn = new List<Unit>();
+        foreach (Unit u in src)
         {
-            list.Add(u);
+            toReturn.Add(u);
         }
-        return list;
-    }
-
-
-    private Unit[] CopySelectedIntoGroup(Unit[] selected, int length)
-    {
-        Unit[] toReturn = new Unit[MAX_UNITS_SELECTED];
-
-        for (int i = 0; i < length; ++i)
-        {
-            toReturn[i] = selected[i];
-        }
-
         return toReturn;
     }
 
+
+    private bool DoubleTap(KeyCode key)
+    {
+        if (Input.GetKeyDown(key))
+        {
+            double elap = Time.realtimeSinceStartupAsDouble - lastTime;
+            if (elap <= tapDelay)
+            {
+                lastTime = Time.realtimeSinceStartupAsDouble;
+                Debug.Log(elap);
+                return true;
+            }
+            lastTime = Time.realtimeSinceStartupAsDouble;
+        }
+        return false;
+    }
 
 }
