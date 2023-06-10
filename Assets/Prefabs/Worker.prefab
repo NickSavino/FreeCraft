@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
   - component: {fileID: 4939075260889429426}
-  - component: {fileID: 336020755152217958}
+  - component: {fileID: 2016280022}
   - component: {fileID: 8184523097418184569}
   m_Layer: 0
   m_Name: Worker
@@ -297,7 +297,7 @@ MonoBehaviour:
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
---- !u!114 &336020755152217958
+--- !u!114 &2016280022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7492201bab8cf444dbb5b8bd7de6767f, type: 3}
+  m_Script: {fileID: 11500000, guid: 41f638d58dcefa540bfb8961085d983d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fields: {fileID: 4939075260889429426}
@@ -316,10 +316,10 @@ MonoBehaviour:
   onHealthChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 336020755152217958}
-        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: takeDamage
-        m_Mode: 3
+      - m_Target: {fileID: 8184523097418184569}
+        m_TargetAssemblyTypeName: UnitUI, Assembly-CSharp
+        m_MethodName: OnHealthChange
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -332,7 +332,7 @@ MonoBehaviour:
   currentAttackTime: 0
   prevAttackTime: 0
   miningCooldown: 1
-  miningYield: 3
+  miningYield: 1
   lastGatherActionTime: 0
   inventorySize: 10
   currentInv: 0
@@ -347,12 +347,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5eeb79b95123d04c9ea31685df19bc6, type: 3}
+  m_Script: {fileID: 11500000, guid: feae94d1901e60f4c85013d0944c5316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthPanel: {fileID: 6447980020902869017}
   healthText: {fileID: 473248117376403874}
-  unit: {fileID: 336020755152217958}
+  unit: {fileID: 0}
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,27 +20,20 @@ public class UnitWorker : Unit
     public StructureHeadquarters headquarters;
     public ResourceBase targetDeposit;
 
-    public void Start()
-    {
-        lastGatherActionTime = 0;
+   
 
-    }
-
-    private void Awake()
-    {
-        GetNearestHeadquarters();
-    }
 
     public override void moveUnit()
     {
-        
+        GetNearestHeadquarters();
+
         //Checks to see if object is a resource, calling harvest funciton if true
         Collider2D collider = Physics2D.OverlapPoint(fields.target_position);
-        
-        if (collider != null )
+
+        if (collider != null)
         {
             targetDeposit = collider.GetComponent<ResourceBase>();
-            //if component exists, call harvest. checks if inventory is maxed out 
+          //  if component exists, call harvest. checks if inventory is maxed out 
             if (targetDeposit != null)
             {
                 if (currentInv >= inventorySize)
@@ -50,22 +43,24 @@ public class UnitWorker : Unit
                     DepositResource();
                 }
                 Harvest();
-            } else
+            }
+            else
             {
                 HaltUnit();
             }
         }
-        
-        // check to see if the unit is within range to destination and its not colliding with anything
+
+       // check to see if the unit is within range to destination and its not colliding with anything
         bool closeEnough = (fields.target_position - transform.position).magnitude <= GameController.UNIT_ACCEPTABLE_DISTANCE && this.collisions != 0;
-        
-        // if the unit is not at its target position and its not close enough, keep moving
+
+        //if the unit is not at its target position and its not close enough, keep moving
         if (transform.position != fields.target_position && !closeEnough)
         {
             transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
         }
 
     }
+
     public void Harvest()
     {
 
@@ -83,7 +78,7 @@ public class UnitWorker : Unit
 
     public void DepositResource()
     {
-        //Deposits resource at the headquarters
+        // resource at the headquarters
         //needs work
         headquarters.ReceiveResources(currentInv);
         currentInv = 0;
@@ -93,6 +88,7 @@ public class UnitWorker : Unit
 
 
     //Find Nearests friendly headquarters
+
     public void GetNearestHeadquarters()
     {
         //get list of all headquarters

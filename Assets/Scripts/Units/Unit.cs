@@ -39,7 +39,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
         fields.position = transform.position;
         //  fields.target_position = transform.position;
-
     }
 
 
@@ -54,8 +53,6 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         ++collisions;
     }
-
-
 
     private void OnCollisionExit2D(Collision2D collision)
     {
