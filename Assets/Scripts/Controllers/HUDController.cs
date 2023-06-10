@@ -37,7 +37,7 @@ public class HUDController : MonoBehaviour
     bool[] activeGroup;
     int lastSelected;
 
-    public static readonly int MAX_UNITS_SELECTED = 16;
+    public static readonly int MAX_UNITS_SELECTED = 14;
     public static readonly double DOUBLE_CLICK_DELAY = 0.5f;
 
     private double lastTime;
@@ -118,7 +118,7 @@ public class HUDController : MonoBehaviour
         this.group9 = new List<Unit>();
         this.group0 = new List<Unit>();
         lastTime = Time.realtimeSinceStartupAsDouble;
-        sampleRes = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceBase>();
+       // sampleRes = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceBase>();
 
         mineralsNum = GameObject.FindGameObjectWithTag("MineralsNum").GetComponent<TextMeshProUGUI>();
 
@@ -129,6 +129,7 @@ public class HUDController : MonoBehaviour
 
         ClearActivePortrait();
         ClearSmallPortraits();
+        ClearSpawnPortrait();
     }
 
     // Update is called once per frame
@@ -144,7 +145,11 @@ public class HUDController : MonoBehaviour
         UpdateMineralsCount();
 
         UpdateActiveStructure();
-        UpdateSmallStructures();
+        UpdateSpawnStatus();
+        UpdateSpawnPortrait();
+
+        //TODO: REMEMBER TO RENABLE THIS WHEN WE WANT TO HAVE MULTIPLE STRUCTURES SELECTED
+       // UpdateSmallStructures();
   
 
 
@@ -498,7 +503,8 @@ public class HUDController : MonoBehaviour
 
     private void UpdateMineralsCount()
     {
-        mineralsNum.text = Convert.ToString(sampleRes.remainingResources);
+        //   mineralsNum.text = Convert.ToString(sampleRes.remainingResources);
+        mineralsNum.text = "0";
     }
 
 
@@ -545,6 +551,65 @@ public class HUDController : MonoBehaviour
                 smallPortraits[i].GetComponent<Image>().sprite = selectedStructs[i].GetComponent<SpriteRenderer>().sprite;
                 smallPortraits[i].GetComponent<Image>().color = Color.white;
             }
+        }
+    }
+
+
+    private void ClearSpawnPortrait()
+    {
+        Image spawnImage = hud.transform.Find("SpawnPortrait").GetComponent<Image>();
+        spawnImage.sprite = null;
+        spawnImage.color = Color.black;
+    }
+
+    private bool StructureSelected()
+    {
+        return structureManager.selectedStructures.Count != 0;
+    }
+
+    private void UpdateSpawnPortrait()
+    {
+        // TODO: THIS FUNCTION SHOULD ONLY BE CALLED IN AN IF CONDITION
+        ClearSpawnPortrait();
+        if (StructureSelected())
+        {
+            Image spawnImage = hud.transform.Find("SpawnPortrait").GetComponent<Image>();
+            //  spawnImage.sprite = structureManager.selectedStructures[0].GetComponent<SpriteRenderer>().sprite;
+            //spawnImage.color = Color.white;
+
+
+            // holy fuck break up this line
+            SpriteRenderer selectedStructureSprite = structureManager.selectedStructures[0].GetComponent<Structure>().queuedUnit.GetComponent<SpriteRenderer>();
+            if (selectedStructureSprite != null)
+            {
+                spawnImage.sprite = selectedStructureSprite.sprite;
+                spawnImage.color = Color.white;
+            }
+
+        }
+    
+    }
+
+
+    private void UpdateSpawnStatus()
+    {
+        // TODO: THIS SHOULD PROBABLY NOT BE CALLED EVERY FRAME, SHOULD BE IN AN IF CONDITIONAL
+        TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
+        // TODO: THIS FUNCTION SHOULD ONLY BE CALLED IN AN IF CONDITION
+        spawnTimer.text = "";
+        // TODO: MOVE THIS CHECK TO MAIN FUNCTION THAT CALLS ALL SUB FUNCTIONS
+        if (StructureSelected())
+        {
+         //   TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
+            Structure selectedStructure = structureManager.selectedStructures[0].GetComponent<Structure>();
+            if (selectedStructure.queuedUnit != null)
+            {
+
+                float timeLeftTillSpawn = selectedStructure.unitSpawnTime - (Time.time - selectedStructure.spawnStartTime);
+
+                spawnTimer.text = string.Format("Unit spawns in {0:0} seconds", timeLeftTillSpawn);
+            }
+
         }
     }
 

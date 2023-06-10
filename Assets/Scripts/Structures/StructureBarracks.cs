@@ -8,7 +8,7 @@ public class StructureBarracks : Structure
     public override void Update()
     {
         base.Update();
-        SpawnInfrantry();
+        QueueInfrantry();
     }
 
     /**
@@ -16,11 +16,12 @@ public class StructureBarracks : Structure
      * 
      * 
      */
-    public void SpawnInfrantry()
+    protected void QueueInfrantry()
     {
         // if the barracks is selected and M is pressed
         if (this.isSelected && Input.GetKeyDown(KeyCode.M))
         {
+          
             // load the prefab
             GameObject infantry = Resources.Load("Infantry") as GameObject;
 
@@ -31,13 +32,21 @@ public class StructureBarracks : Structure
             UnitInfantry script = infantry.GetComponent<UnitInfantry>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));
 
+            this.queuedUnit = infantry;
+            infantry.SetActive(false);
+
+            this.spawnStartTime = Time.time;
+            this.unitSpawnTime = script.fields.spawnTime;
+
+
             // Instantiate, including a call to Awake in unit infantry
-            Instantiate(infantry);
-
-
+            // Instantiate(infantry);
 
         }
     }
+
+    
+    
 
 
  

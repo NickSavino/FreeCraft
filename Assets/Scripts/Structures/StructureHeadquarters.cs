@@ -31,9 +31,13 @@ public class StructureHeadquarters : Structure
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));
 
             // Instantiate, including a call to Awake in unit worker
-            Instantiate(worker);
+            //Instantiate(worker);
 
+            this.queuedUnit = worker;
+            worker.SetActive(false);
 
+            this.spawnStartTime = Time.time;
+            this.unitSpawnTime = script.fields.spawnTime;
 
         }
     }
