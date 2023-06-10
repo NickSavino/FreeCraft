@@ -153,7 +153,8 @@ MonoBehaviour:
   defense: 0
   uid: 0
   movement_speed: 10
-  attack_range: 0
+  attackRange: 0
+  attackDelay: 0
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
@@ -173,9 +174,30 @@ MonoBehaviour:
   team: 0
   player: 0
   unitType: 0
-  miningSpeed: 1
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  targetUnit: {fileID: 0}
+  currentAttackTime: 0
+  prevAttackTime: 0
+  miningCooldown: 0
+  miningYield: 0
+  lastGatherActionTime: 0
   inventorySize: 10
   currentInv: 0
+  headquarters: {fileID: 0}
   targetDeposit: {fileID: 0}
 --- !u!1 &6439062573777715410
 GameObject:

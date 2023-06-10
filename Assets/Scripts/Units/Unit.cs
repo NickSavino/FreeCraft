@@ -34,6 +34,7 @@ public class Unit : MonoBehaviour, UnitMethods
     private void Awake()
     {
         selected_unit = transform.Find("Selected").gameObject;
+        Debug.Log(selected_unit);
         SetSelectedVisible(false);
 
         fields.position = transform.position;

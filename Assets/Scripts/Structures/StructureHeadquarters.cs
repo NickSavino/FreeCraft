@@ -10,6 +10,13 @@ public class StructureHeadquarters : Structure
         SpawnHeadquarters();
     }
 
+    public int resources;
+
+    public void ReceiveResources(int amount)
+    {
+        resources += amount;
+    }
+
     /**
      * Spawn worker
      * 
@@ -32,9 +39,6 @@ public class StructureHeadquarters : Structure
 
             // Instantiate, including a call to Awake in unit worker
             Instantiate(worker);
-
-
-
         }
     }
 }
