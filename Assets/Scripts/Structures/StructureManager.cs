@@ -19,13 +19,14 @@ public class StructureManager : MonoBehaviour
     // TODO: Structure spawning should use prefabs
 
     // global constant colors
-    public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(0, 256, 256, 0.25f);
+    public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(256, 256, 256, 0.25f);
     public static readonly Color RALLY_POINT_COLOR = new Color(256, 0, 0, 0.5f);
 
     //TODO: MAKE TAGS STATIC GLOBALS
 
     // List of currently selected structures
     public List<GameObject> selectedStructures;
+    private List<GameObject> allStructures;
 
     // specific structure selection flags
     public bool headquartersSelected;
@@ -57,6 +58,7 @@ public class StructureManager : MonoBehaviour
     {
         //  globalRenderer = new SpriteRenderer();
         this.selectedStructures = new List<GameObject>();
+        this.allStructures = new List<GameObject>();
         InitSprites();
     }
 
@@ -250,6 +252,9 @@ public class StructureManager : MonoBehaviour
             // set tag
             baseObject.tag = "Structure";
 
+            // keep track of structure added
+            this.allStructures.Add(baseObject);
+
             // set structure selected flags
             this.barracksSelected = false;
             this.airstripSelected = false;
@@ -265,7 +270,10 @@ public class StructureManager : MonoBehaviour
 
 
 
+    private void CheckOverlap()
+    {
 
+    }
 
 
 
@@ -274,7 +282,7 @@ public class StructureManager : MonoBehaviour
      * Draws the texture of the structure when choosing where to place it
      * 
      */
-    void DrawPlaceholder()
+    private void DrawPlaceholder()
     {
         // if the user is placing a structure
         if (this.templateActive)
