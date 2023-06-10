@@ -20,11 +20,12 @@ public class UnitWorker : Unit
     public StructureHeadquarters headquarters;
     public ResourceBase targetDeposit;
 
+   
 
 
- 
     public override void moveUnit()
     {
+        GetNearestHeadquarters();
 
         //Checks to see if object is a resource, calling harvest funciton if true
         Collider2D collider = Physics2D.OverlapPoint(fields.target_position);

@@ -39,7 +39,6 @@ public class Unit : MonoBehaviour, UnitMethods
 
         fields.position = transform.position;
         //  fields.target_position = transform.position;
-        
     }
 
 
