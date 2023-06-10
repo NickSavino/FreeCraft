@@ -31,7 +31,8 @@ public class Structure : MonoBehaviour
     public float unitSpawnTime;
 
     public GameObject queuedUnit;
-    
+
+    int numberOverlapping;
     
 
 
@@ -80,6 +81,23 @@ public class Structure : MonoBehaviour
     {
         return this.isSelected;
     }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+
+    //{
+    //    if (collision.collider.GetComponent<Structure>() != null)
+    //    {
+    //        ++numberOverlapping;
+    //    }
+    //}
+
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.collider.GetComponent<Structure>() != null)
+    //    {
+    //        --numberOverlapping;
+    //    }
+    //}
 
 
 
