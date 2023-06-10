@@ -34,11 +34,11 @@ public class Unit : MonoBehaviour, UnitMethods
     private void Awake()
     {
         selected_unit = transform.Find("Selected").gameObject;
+        Debug.Log(selected_unit);
         SetSelectedVisible(false);
 
         fields.position = transform.position;
         //  fields.target_position = transform.position;
-
     }
 
 
@@ -53,8 +53,6 @@ public class Unit : MonoBehaviour, UnitMethods
     {
         ++collisions;
     }
-
-
 
     private void OnCollisionExit2D(Collision2D collision)
     {
