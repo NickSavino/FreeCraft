@@ -156,9 +156,8 @@ public class Unit : MonoBehaviour, UnitMethods
             //currentAttackTime - prevAttackTime = Time elapsed since last attack
             if (currentAttackTime - prevAttackTime > fields.attackDelay)
             {
-
-
                 float distance = Vector3.Distance(transform.position, targetUnit.transform.position);
+                //if the distance is greater than this unit's attack range, return
                 if (distance > fields.attackRange)
                 {
                     return;

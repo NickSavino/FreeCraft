@@ -80,8 +80,18 @@ public class UnitWorker : Unit
     {
         // resource at the headquarters
         //needs work
-        headquarters.ReceiveResources(currentInv);
-        currentInv = 0;
+
+
+        if (Vector3.Distance(this.gameObject.transform.position, headquarters.transform.position) < 1)
+        {
+            headquarters.ReceiveResources(currentInv);
+            currentInv = 0;
+            if (targetDeposit != null)
+            {
+                Harvest();
+            }
+        }
+
 
     }
 
