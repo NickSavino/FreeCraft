@@ -457,10 +457,10 @@ MonoBehaviour:
   onHealthChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395326161}
-        m_TargetAssemblyTypeName: UnitUI, Assembly-CSharp
-        m_MethodName: OnHealthChange
-        m_Mode: 1
+      - m_Target: {fileID: 6011475335516189050}
+        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
+        m_MethodName: takeDamage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5eeb79b95123d04c9ea31685df19bc6, type: 3}
+  m_Script: {fileID: 11500000, guid: feae94d1901e60f4c85013d0944c5316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthPanel: {fileID: 800196014}
