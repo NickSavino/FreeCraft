@@ -25,14 +25,21 @@ public class StructureManager : MonoBehaviour
     //TODO: MAKE TAGS STATIC GLOBALS
 
     // List of currently selected structures
-    List<GameObject> selectedStructures;
+    public List<GameObject> selectedStructures;
 
     // specific structure selection flags
-    bool headquartersSelected;
-    bool barracksSelected;
-    bool factorySelected;
-    bool stableSelected;
-    bool airstripSelected;
+    public bool headquartersSelected;
+    public bool barracksSelected;
+    public bool factorySelected;
+    public bool stableSelected;
+    public bool airstripSelected;
+
+
+    Sprite barracksSprite;
+    Sprite airstripSprite;
+    Sprite headquartersSprite;
+    Sprite stableSprite;
+    Sprite factorySprite;
 
 
     // flag to indicate that player is choosing a location for a structure
@@ -50,6 +57,7 @@ public class StructureManager : MonoBehaviour
     {
         //  globalRenderer = new SpriteRenderer();
         this.selectedStructures = new List<GameObject>();
+        InitSprites();
     }
 
     // Update is called once per frame
@@ -63,6 +71,7 @@ public class StructureManager : MonoBehaviour
         UnselectStructure();
         BuildStructure();
         SelectStructureClick();
+        Debug.Log(selectedStructures.Count);
         //DrawPlaceholder();
         //  BuildBarracks();
     }
@@ -291,7 +300,6 @@ public class StructureManager : MonoBehaviour
     void SelectStructureClick()
     {
         // clear current list of selected items
-        this.selectedStructures.Clear();
 
         // iterate through each structure
         foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
@@ -301,7 +309,8 @@ public class StructureManager : MonoBehaviour
                 Structure s = structure.GetComponent<Structure>();
                 if (s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    this.selectedStructures.Add(structure);
+                this.selectedStructures.Clear();
+                this.selectedStructures.Add(structure);
                     s.setIsSelected(true);
                 }
         }
@@ -337,23 +346,89 @@ public class StructureManager : MonoBehaviour
             }
         }
 
-        // otherwise check for left mouse click to unselect
-        else
-        {
-            foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
-            {
-                    Structure s = structure.GetComponent<Structure>();
 
-                    // if the user clicked anywhere not on the structure, unselect it
-                    if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    selectedStructures.Clear();
+                }
+                else
+                {
+                    foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
                     {
-                        s.setIsSelected(false);
+                        Structure s = structure.GetComponent<Structure>();
+
+                        // if the user clicked anywhere not on the structure, unselect it
+                        if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                        {
+                            s.setIsSelected(false);
+                            selectedStructures.Remove(structure);
+                        }
+
+                        //   this.selectedStructures.Clear();
                     }
-   
-                this.selectedStructures.Clear();
-            }
-        }
+                }
     }
+
+
+    public Sprite GetActiveSprite()
+    {
+        if (barracksSelected)
+        {
+            return barracksSprite;
+        }
+        if (factorySelected)
+        {
+            return factorySprite;
+        }
+        if (airstripSelected)
+        {
+            return airstripSprite;
+        }
+        if (stableSelected)
+        {
+            return stableSprite;
+        }
+        if (headquartersSelected)
+        {
+            return headquartersSprite;
+        }
+        return null;
+
+    }
+
+
+    private void InitSprites()
+    {
+        barracksSprite = Resources.Load<Sprite>("sprite_barracks");
+        factorySprite = Resources.Load<Sprite>("sprite_factory");
+        airstripSprite = Resources.Load<Sprite>("sprite_airstrip");
+        stableSprite = Resources.Load<Sprite>("sprite_stable");
+        headquartersSprite = Resources.Load<Sprite>("sprite_headquarters");
+    }
+
+    //public void SelectControlGroup(List<Structure> group)
+    //{
+    //    ClearSelected();
+    //    // HUDController sets this class's selected unit field before this function is called
+
+    //    // add new selected units
+    //    foreach (Structure struc in group)
+    //    {
+    //      //  struc.SetSelectedVisible(true);
+    //        selectedStructures.Add(struc);
+    //    }
+    //}
+
+    //public void ClearSelected()
+    //{
+    //    //deselect all units
+    //    foreach (GameObject struc in selectedStructures)
+    //    {
+    //     //   unit.SetSelectedVisible(false);
+    //    }
+    //    // clear selected units
+    //    this.selectedUnits.Clear();
+    //}
 
 }
 

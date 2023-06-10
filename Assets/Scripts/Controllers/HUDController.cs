@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 //using UnityEngine.UIElements;
 
 public class HUDController : MonoBehaviour
@@ -11,6 +12,12 @@ public class HUDController : MonoBehaviour
     GameObject pauseMenu;
     GameObject hud;
     UnitController unitController;
+
+    ResourceBase sampleRes;
+
+    TextMeshProUGUI mineralsNum;
+
+    StructureManager structureManager;
 
     GameObject[] smallPortraits;
 
@@ -56,6 +63,7 @@ public class HUDController : MonoBehaviour
                 return -1;
             }
             return 0;
+
         }
     }
 
@@ -67,6 +75,17 @@ public class HUDController : MonoBehaviour
         public int Compare(Unit x, Unit y)
         {
             return String.Compare(x.fields.name, y.fields.name);
+        }
+    }
+
+
+    private class StructureNameSorter : IComparer<GameObject>
+    {
+
+
+        public int Compare(GameObject x, GameObject y)
+        {
+            return String.Compare(x.name, y.name);
         }
     }
 
@@ -99,7 +118,11 @@ public class HUDController : MonoBehaviour
         this.group9 = new List<Unit>();
         this.group0 = new List<Unit>();
         lastTime = Time.realtimeSinceStartupAsDouble;
+        sampleRes = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceBase>();
 
+        mineralsNum = GameObject.FindGameObjectWithTag("MineralsNum").GetComponent<TextMeshProUGUI>();
+
+        structureManager = GameObject.FindGameObjectWithTag("StructureManager").GetComponent<StructureManager>();
 
         //   InitControlGroups();
         Array.Sort(smallPortraits, new NumericNameSorter());
@@ -111,12 +134,18 @@ public class HUDController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       // Debug.Log(structureManager.selectedStructures.Count);
         UpdateActivePortrait();
         UpdateSmallPortraits();
         SetControlGroup();
         SelectControlGroup();
 
         AddToControlGroup();
+        UpdateMineralsCount();
+
+        UpdateActiveStructure();
+        UpdateSmallStructures();
+  
 
 
         // Debug.Log(unitController);
@@ -126,6 +155,12 @@ public class HUDController : MonoBehaviour
 
     private void UpdateActivePortrait()
     {
+
+        if (structureManager.selectedStructures.Count != 0)
+        {
+            return;
+        }
+
         // Unit[] selectedUnits = SelectedUnitsShallowCopy();
         List<Unit> selectedUnits = unitController.selectedUnits;
   
@@ -137,8 +172,8 @@ public class HUDController : MonoBehaviour
         if (selectedUnits.Count != 0)
         {
   
-            hud.transform.Find("Portrait").GetComponent<Image>().sprite = selectedUnits[0].GetComponent<SpriteRenderer>().sprite;
-            hud.transform.Find("Portrait").GetComponent<Image>().color = Color.white;
+            hud.transform.Find("MainPortrait").GetComponent<Image>().sprite = selectedUnits[0].GetComponent<SpriteRenderer>().sprite;
+            hud.transform.Find("MainPortrait").GetComponent<Image>().color = Color.white;
             // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
 
 
@@ -153,6 +188,11 @@ public class HUDController : MonoBehaviour
 
     private void UpdateSmallPortraits()
     {
+        if (structureManager.selectedStructures.Count != 0)
+        {
+            return;
+        }
+
         // Unit[] selectedUnits = SelectedUnitsShallowCopy();
         List<Unit> selectedUnits = unitController.selectedUnits;
         selectedUnits.Sort(new UnitNameSorter());
@@ -184,8 +224,8 @@ public class HUDController : MonoBehaviour
 
     private void ClearActivePortrait()
     {
-        hud.transform.Find("Portrait").GetComponent<Image>().sprite = null;
-        hud.transform.Find("Portrait").GetComponent<Image>().color = Color.black;
+        hud.transform.Find("MainPortrait").GetComponent<Image>().sprite = null;
+        hud.transform.Find("MainPortrait").GetComponent<Image>().color = Color.black;
     }
 
     private void ClearActiveHealth()
@@ -454,6 +494,58 @@ public class HUDController : MonoBehaviour
             lastTime = Time.realtimeSinceStartupAsDouble;
         }
         return false;
+    }
+
+    private void UpdateMineralsCount()
+    {
+        mineralsNum.text = Convert.ToString(sampleRes.remainingResources);
+    }
+
+
+    private void UpdateActiveStructure()
+    {
+
+
+
+        // Unit[] selectedUnits = SelectedUnitsShallowCopy();
+        List<GameObject> selectedStructs = structureManager.selectedStructures;
+
+
+
+
+        if (selectedStructs.Count != 0)
+        {
+            ClearActivePortrait();
+            hud.transform.Find("MainPortrait").GetComponent<Image>().sprite = selectedStructs[0].GetComponent<SpriteRenderer>().sprite;
+            hud.transform.Find("MainPortrait").GetComponent<Image>().color = Color.white;
+            // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
+
+
+        }
+
+    }
+
+    // ugly looking function
+
+    private void UpdateSmallStructures()
+    {
+
+
+        // Unit[] selectedUnits = SelectedUnitsShallowCopy();
+        List<GameObject> selectedStructs = structureManager.selectedStructures;
+        selectedStructs.Sort(new StructureNameSorter());
+
+
+        if (selectedStructs.Count != 0)
+        {
+
+            ClearSmallPortraits();
+            for (int i = 0; i < MAX_UNITS_SELECTED && i < selectedStructs.Count; ++i)
+            {
+                smallPortraits[i].GetComponent<Image>().sprite = selectedStructs[i].GetComponent<SpriteRenderer>().sprite;
+                smallPortraits[i].GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 
 }
