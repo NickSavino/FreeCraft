@@ -10,6 +10,13 @@ public class StructureHeadquarters : Structure
         SpawnHeadquarters();
     }
 
+    public int resources;
+
+    public void ReceiveResources(int amount)
+    {
+        resources += amount;
+    }
+
     /**
      * Spawn worker
      * 
@@ -38,6 +45,7 @@ public class StructureHeadquarters : Structure
 
             this.spawnStartTime = Time.time;
             this.unitSpawnTime = script.fields.spawnTime;
+
 
         }
     }

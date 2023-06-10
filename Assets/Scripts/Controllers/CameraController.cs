@@ -65,22 +65,22 @@ public class CameraController : MonoBehaviour
     public void ArrowKeyHandler()
     {
         //up
-        if (Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Camera.main.pixelHeight)
+        if (Input.GetKey(KeyCode.UpArrow) /*|| Input.mousePosition.y >= Camera.main.pixelHeight*/)
         {
             camera_position.y += _cameraSpeed / 50;
         }
         //left
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.mousePosition.x <= 0)
+        if (Input.GetKey(KeyCode.LeftArrow) /*|| Input.mousePosition.x <= 0 */)
         {
             camera_position.x -= _cameraSpeed / 50;
         }
         //down
-        if (Input.GetKey(KeyCode.DownArrow) || Input.mousePosition.y <= 0)
+        if (Input.GetKey(KeyCode.DownArrow) /*|| Input.mousePosition.y <= 0 */)
         {
             camera_position.y -= _cameraSpeed / 50;
         }
         //right
-        if (Input.GetKey(KeyCode.RightArrow) || Input.mousePosition.x >= Camera.main.pixelWidth)
+        if (Input.GetKey(KeyCode.RightArrow) /*|| Input.mousePosition.x >= Camera.main.pixelWidth */)
         {
             camera_position.x += _cameraSpeed / 50;
         }

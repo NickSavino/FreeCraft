@@ -38,11 +38,11 @@ public class ResourceBase : MonoBehaviour
      * Summary: using UnityEvent callbacks, this function handles how many resources to remove from the deposit,
      * adding that amount to the players inventory
      */
-    public void MineResource(int miningSpeed, UnitWorker gatheringUnit)
+    public void MineResource(int miningYield, UnitWorker gatheringUnit)
     {
         
-        remainingResources -= miningSpeed * 0.5f;
-        double resourcesMined = miningSpeed * 0.5f;
+        remainingResources -= miningYield;
+        int resourcesMined = miningYield;
 
 
         if (onQuantityChange!= null)

@@ -8,6 +8,7 @@ TagManager:
   - Unit
   - Structure
   - Resource
+  - HUD
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Resource
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
@@ -45,6 +46,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 1
+  - name: Ground
     uniqueID: 1552382015
     locked: 0

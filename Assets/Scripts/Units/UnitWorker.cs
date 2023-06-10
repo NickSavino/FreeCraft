@@ -1,22 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UnitWorker : Unit
 {
-    // miningSpeed of unit. Math needs to be tweaked
-    public int miningSpeed;
+    // mining cooldown of unit. Math needs to be tweaked
+    public float miningCooldown;
+    public int miningYield;
+    public float lastGatherActionTime;
     public int inventorySize;
 
     //how many items the worker unit currently has
-    public double currentInv;
+    public int currentInv;
 
 
     //deposit that the worker is currently mining
+    public StructureHeadquarters headquarters;
     public ResourceBase targetDeposit;
 
+    public void Start()
+    {
+        lastGatherActionTime = 0;
 
+    }
+
+    private void Awake()
+    {
+        GetNearestHeadquarters();
+    }
 
     public override void moveUnit()
     {
@@ -32,7 +45,8 @@ public class UnitWorker : Unit
             {
                 if (currentInv >= inventorySize)
                 {
-                    currentInv = (int)currentInv;
+                    currentInv = inventorySize;
+                    fields.target_position = headquarters.transform.position;
                     DepositResource();
                 }
                 Harvest();
@@ -51,21 +65,54 @@ public class UnitWorker : Unit
             transform.position = Vector3.MoveTowards(transform.position, fields.target_position, fields.movement_speed * Time.deltaTime);
         }
 
-        
-
     }
     public void Harvest()
     {
+
+        if (Time.time <= lastGatherActionTime + miningCooldown)
+        {
+            return;
+        }
         if (currentInv >= inventorySize)
         {
             return;
         }
-        targetDeposit.MineResource(miningSpeed, this);
-        Debug.Log("Current Inv Size: " + currentInv);
+        targetDeposit.MineResource(miningYield, this);
+        lastGatherActionTime = Time.time;
     }
 
     public void DepositResource()
     {
-        Debug.Log("Depositing Resource");
+        //Deposits resource at the headquarters
+        //needs work
+        headquarters.ReceiveResources(currentInv);
+        currentInv = 0;
+
+    }
+
+
+
+    //Find Nearests friendly headquarters
+    public void GetNearestHeadquarters()
+    {
+        //get list of all headquarters
+        StructureHeadquarters[] hqList = GameObject.FindObjectsOfType<StructureHeadquarters>();
+        float prevDistance = 9999;
+
+        //iterate through and compare the distance of the current hq with the previous one, set the closest as this workers target headquarters
+        foreach (var hq in hqList)
+        {
+            if (hq != null)
+            {
+                float distance = Vector3.Distance(this.gameObject.transform.position, hq.transform.position);
+                Debug.Log(distance);
+                Debug.Log(prevDistance);
+                if (distance < prevDistance)
+                {
+                    this.headquarters = hq;
+                    prevDistance = distance;
+                }
+            }
+        }
     }
 }
