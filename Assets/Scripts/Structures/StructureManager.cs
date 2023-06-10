@@ -20,6 +20,7 @@ public class StructureManager : MonoBehaviour
 
     // global constant colors
     public static readonly Color DEFAULT_TEMPLATE_COLOR = new Color(256, 256, 256, 0.25f);
+    public static readonly Color INVALID_TEMPLATE_COLOR = new Color(256, 0, 0, 0.25f);
     public static readonly Color RALLY_POINT_COLOR = new Color(256, 0, 0, 0.5f);
 
     //TODO: MAKE TAGS STATIC GLOBALS
@@ -47,7 +48,11 @@ public class StructureManager : MonoBehaviour
     bool templateActive;
 
     // texture to draw when choosing where to place structure
-    Texture2D template;
+   // Texture2D template;
+
+
+    GameObject template;
+    SpriteRenderer templateRenderer;
 
     // dimensions of texture for use in GUI.DrawTexture()
     Rect templateRect;
@@ -60,6 +65,11 @@ public class StructureManager : MonoBehaviour
         this.selectedStructures = new List<GameObject>();
         this.allStructures = new List<GameObject>();
         InitSprites();
+        template = new GameObject("Template");
+        templateRenderer = template.AddComponent<SpriteRenderer>();
+        templateRenderer.color = DEFAULT_TEMPLATE_COLOR;
+        template.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -100,7 +110,7 @@ public class StructureManager : MonoBehaviour
             this.barracksSelected = true;
 
             // set template texture to barracks sprite
-            this.template = Resources.Load<Texture2D>("sprite_barracks");
+            templateRenderer.sprite =  Resources.Load<Sprite>("sprite_barracks");
 
             // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
@@ -116,7 +126,7 @@ public class StructureManager : MonoBehaviour
             this.factorySelected = true;
 
             // set template texture to barracks sprite
-            this.template = Resources.Load<Texture2D>("sprite_factory");
+            templateRenderer.sprite = Resources.Load<Sprite>("sprite_factory");
 
             // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
@@ -132,7 +142,7 @@ public class StructureManager : MonoBehaviour
             this.stableSelected = true;
 
             // set template texture to barracks sprite
-            this.template = Resources.Load<Texture2D>("sprite_stable");
+            templateRenderer.sprite = Resources.Load<Sprite>("sprite_stable");
 
             // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
@@ -148,7 +158,7 @@ public class StructureManager : MonoBehaviour
             this.airstripSelected = true;
 
             // set template texture to barracks sprite
-            this.template = Resources.Load<Texture2D>("sprite_airstrip");
+            templateRenderer.sprite = Resources.Load<Sprite>("sprite_airstrip");
 
             // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
@@ -163,7 +173,7 @@ public class StructureManager : MonoBehaviour
             this.headquartersSelected = true;
 
             // set template texture to barracks sprite
-            this.template = Resources.Load<Texture2D>("sprite_headquarters");
+            templateRenderer.sprite = Resources.Load<Sprite>("sprite_headquarters");
 
             // indicate that the user is currently choosing where to place a structure
             this.templateActive = true;
@@ -229,12 +239,12 @@ public class StructureManager : MonoBehaviour
             // Add and configure the SpriteRenderer of the GameObject
             SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
-            renderer.color = DEFAULT_TEMPLATE_COLOR;
+            renderer.color = Color.white;
             renderer.enabled = true;
 
             // Add the rally point's sprite renderer
             renderer.sprite = sprite;
-            renderer.color = DEFAULT_TEMPLATE_COLOR;
+            renderer.color = Color.white;
             renderer.enabled = true;
 
             // Add and configure the Rigidbody2D of the GameObject
@@ -246,9 +256,10 @@ public class StructureManager : MonoBehaviour
 
             // TODO: 10 IS A MAGIC NUMBER BELOW, AS OF RN IT IS THE Z-OFFSET OF THE CAMERA, ADDRESS THIS
 
+            Vector3 mousePos = Input.mousePosition;
             // scale the GameObject's position to the world scale position
             // baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, 0));
-            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(templateRect.center.x, Camera.main.pixelHeight - templateRect.center.y, -Camera.main.transform.position.z));
+            baseObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
             // set tag
             baseObject.tag = "Structure";
 
@@ -262,7 +273,7 @@ public class StructureManager : MonoBehaviour
             this.headquartersSelected = false;
             this.stableSelected = false;
             this.templateActive = false;
-            this.template = null;
+            this.template.SetActive(false);
         }
 
     }
@@ -286,21 +297,31 @@ public class StructureManager : MonoBehaviour
     {
         // if the user is placing a structure
         if (this.templateActive)
-        {   
+        {
             // get the mouse position, texture will follow this
             Vector3 mousePos = Input.mousePosition;
 
             // configure the placement position of the texture
-            this.templateRect = new Rect(mousePos.x - template.width / 2, (Camera.main.pixelHeight - mousePos.y) - template.height / 2, template.width, template.height);
-            
+            //this.templateRect = new Rect(mousePos.x - template.width / 2, (Camera.main.pixelHeight - mousePos.y) - template.height / 2, template.width, template.height);
+            Debug.Log(template);
+            template.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -Camera.main.transform.position.z));
+            template.SetActive(true);
+
+
             // draw with the desired color
             // TODO: THIS SHOULD BE SET TO THE USER'S COLOR ONCE WE CREATE A COLOR LOOK-UP TABLE        
-            GUI.color = DEFAULT_TEMPLATE_COLOR;
+            //    GUI.color = DEFAULT_TEMPLATE_COLOR;
 
-            // then draw the texture and reset the GUI color
-            GUI.DrawTexture(this.templateRect, this.template);
-            GUI.color = Color.white;
+            //    // then draw the texture and reset the GUI color
+            //    GUI.DrawTexture(this.templateRect, this.template);
+            //    GUI.c
+            //    olor = Color.white;
+            //}
         }
+        //else
+        //{
+        //    template.SetActive(false);
+        //}
     }
 
 
@@ -346,7 +367,7 @@ public class StructureManager : MonoBehaviour
             // reset selection fields in this class
             this.barracksSelected = false;
             this.templateActive = false;
-            this.template = null;
+            this.template.SetActive(false);
             this.selectedStructures.Clear();
 
             // iterate over each structure, find the type of structure, then set its selected to false
