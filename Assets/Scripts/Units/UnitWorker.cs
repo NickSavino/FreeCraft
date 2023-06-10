@@ -81,6 +81,7 @@ public class UnitWorker : Unit
         // resource at the headquarters
         //needs work
 
+
         if (Vector3.Distance(this.gameObject.transform.position, headquarters.transform.position) < 1)
         {
             headquarters.ReceiveResources(currentInv);
@@ -90,6 +91,7 @@ public class UnitWorker : Unit
                 Harvest();
             }
         }
+
 
     }
 

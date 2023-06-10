@@ -410,31 +410,7 @@ MonoBehaviour:
   remainingResources: 1000
   onQuantityChange:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4979620902118892993}
-        m_TargetAssemblyTypeName: ResourceUI, Assembly-CSharp
-        m_MethodName: OnResourceQuantityChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4979620902118892993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101987272685191753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d16920370069b74a8d00acd7743780e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPanel: {fileID: 4101987271667111986}
-  resourceQuantityText: {fileID: 4101987272523579188}
-  resource: {fileID: 8956657155527135127}
+
+
+      m_Calls: []
+

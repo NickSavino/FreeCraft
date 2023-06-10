@@ -153,7 +153,9 @@ MonoBehaviour:
   defense: 0
   uid: 0
   movement_speed: 10
-  attack_range: 0
+  attackRange: 0
+  attackDelay: 0
+  spawnTime: 4
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
@@ -173,6 +175,12 @@ MonoBehaviour:
   team: 0
   player: 0
   unitType: 0
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
+  targetUnit: {fileID: 0}
+  currentAttackTime: 0
+  prevAttackTime: 0
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0

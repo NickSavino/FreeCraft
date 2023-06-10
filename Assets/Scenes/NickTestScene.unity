@@ -123,6 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+
 --- !u!1 &259570822
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +407,8 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+
+
     - target: {fileID: 4939075260889429426, guid: ece15c6f8d0606a48b72a83307d88267, type: 3}
       propertyPath: attackRange
       value: 0.35
@@ -418,6 +421,7 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -2.94
       objectReference: {fileID: 0}
+
     - target: {fileID: 6439062573576357318, guid: ece15c6f8d0606a48b72a83307d88267, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.846
@@ -464,6 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 2016280022}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ece15c6f8d0606a48b72a83307d88267, type: 3}
+
 --- !u!1 &1453520330
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,6 +729,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+
 --- !u!1001 &1721927580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -785,6 +791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e17d69b03541204cb621669af93fa53, type: 3}
+
 --- !u!1 &1757472300
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,6 +972,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+
 --- !u!1001 &1844836364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1022,6 +1030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3436acc3e9b4da34b9a9cc034c37460d, type: 3}
+
 --- !u!1 &2016280015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1332,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+
 --- !u!1001 &2579759788479738154
 PrefabInstance:
   m_ObjectHideFlags: 0

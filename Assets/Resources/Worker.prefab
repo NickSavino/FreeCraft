@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
   - component: {fileID: 4939075260889429426}
-  - component: {fileID: 336020755152217958}
+  - component: {fileID: 5352185279070985858}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Unit
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6439062573576357372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.933, y: 0.846, z: 0}
+  m_LocalPosition: {x: -2.5798619, y: -0.38357064, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -155,10 +155,13 @@ MonoBehaviour:
   movement_speed: 10
   attackRange: 0
   attackDelay: 0
+
+  spawnTime: 4
+
   unitName: 
   position: {x: 0, y: 0, z: 0}
-  target_position: {x: 0, y: 0, z: 0}
---- !u!114 &336020755152217958
+  target_position: {x: 5.6206336, y: 1.7755556, z: 0}
+--- !u!114 &5352185279070985858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,7 +170,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6439062573576357372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7492201bab8cf444dbb5b8bd7de6767f, type: 3}
+  m_Script: {fileID: 11500000, guid: 41f638d58dcefa540bfb8961085d983d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fields: {fileID: 4939075260889429426}
@@ -176,26 +179,18 @@ MonoBehaviour:
   unitType: 0
   onHealthChange:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+
+      m_Calls: []
+
   targetUnit: {fileID: 0}
   currentAttackTime: 0
   prevAttackTime: 0
   miningCooldown: 0
   miningYield: 0
   lastGatherActionTime: 0
-  inventorySize: 10
+
+  inventorySize: 0
+
   currentInv: 0
   headquarters: {fileID: 0}
   targetDeposit: {fileID: 0}
