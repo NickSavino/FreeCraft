@@ -150,8 +150,9 @@ GameObject:
   - component: {fileID: 6439062573576357312}
   - component: {fileID: 6439062573576357313}
   - component: {fileID: 4939075260889429426}
-  - component: {fileID: 2016280022}
-  - component: {fileID: 8184523097418184569}
+
+  - component: {fileID: 5672745809290874458}
+
   m_Layer: 0
   m_Name: Worker
   m_TagString: Unit
@@ -297,7 +298,9 @@ MonoBehaviour:
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
---- !u!114 &2016280022
+
+--- !u!114 &5672745809290874458
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,26 +318,14 @@ MonoBehaviour:
   unitType: 0
   onHealthChange:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8184523097418184569}
-        m_TargetAssemblyTypeName: UnitUI, Assembly-CSharp
-        m_MethodName: OnHealthChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+
+      m_Calls: []
   targetUnit: {fileID: 0}
   currentAttackTime: 0
   prevAttackTime: 0
-  miningCooldown: 1
-  miningYield: 1
-  lastGatherActionTime: 0
-  inventorySize: 10
+  miningSpeed: 0
+  inventorySize: 0
+
   currentInv: 0
   headquarters: {fileID: 0}
   targetDeposit: {fileID: 0}

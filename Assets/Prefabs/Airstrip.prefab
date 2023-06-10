@@ -1,8 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-
---- !u!1 &3931088615936381235
-
+--- !u!1 &352738289168470005
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,72 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-
-  - component: {fileID: 448767255170031490}
-  - component: {fileID: -152436703893871843}
-  - component: {fileID: 7488533788867158498}
-  - component: {fileID: -8431175829778663986}
-  - component: {fileID: 3984965044026666294}
-  - component: {fileID: -2246683835017656164}
+  - component: {fileID: 2769833131668249382}
+  - component: {fileID: 6307346235210231010}
+  - component: {fileID: 3454973277703778254}
+  - component: {fileID: 2661479698825229040}
+  - component: {fileID: 6244585145715064330}
+  - component: {fileID: 9163921265715953893}
   m_Layer: 0
-  m_Name: Headquarters
+  m_Name: Airstrip
   m_TagString: Structure
-
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-
---- !u!4 &448767255170031490
-
+--- !u!4 &2769833131668249382
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-
-  m_GameObject: {fileID: 3931088615936381235}
+  m_GameObject: {fileID: 352738289168470005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -70.670944, y: 3.8273952, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
---- !u!50 &-152436703893871843
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3931088615936381235}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!212 &7488533788867158498
-
+--- !u!212 &6307346235210231010
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-
-  m_GameObject: {fileID: 3931088615936381235}
-
+  m_GameObject: {fileID: 352738289168470005}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -110,9 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-
-  m_Sprite: {fileID: 21300000, guid: d601302da5907524d8c307d26102520e, type: 3}
-
+  m_Sprite: {fileID: 21300000, guid: 5a068ea753b0b7544ab9e1403c057f08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,14 +88,73 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-
---- !u!61 &-8431175829778663986
+--- !u!114 &3454973277703778254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352738289168470005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  attack: 0
+  defense: 0
+  uid: 0
+  movement_speed: 0
+  attackRange: 0
+  attackDelay: 0
+  spawnTime: 0
+  unitName: 
+  position: {x: 0, y: 0, z: 0}
+  target_position: {x: 0, y: 0, z: 0}
+--- !u!114 &2661479698825229040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352738289168470005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6474ce1099cec343a1637cd5c1ccb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields: {fileID: 3454973277703778254}
+  spawnStartTime: 0
+  unitSpawnTime: 0
+  queuedUnit: {fileID: 0}
+--- !u!50 &6244585145715064330
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352738289168470005}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &9163921265715953893
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3931088615936381235}
+  m_GameObject: {fileID: 352738289168470005}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -148,55 +172,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0001, y: 0.0001}
+  m_Size: {x: 1.28, y: 1.28}
   m_EdgeRadius: 0
---- !u!114 &3984965044026666294
-
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-
-  m_GameObject: {fileID: 3931088615936381235}
-
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364dc8461f8263249a451f55ecb8729c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-
-  health: 0
-
-  attack: 0
-  defense: 0
-  uid: 0
-  movement_speed: 0
-  attackRange: 0
-  attackDelay: 0
-
-  spawnTime: 0
-  unitName: 
-  position: {x: 0, y: 0, z: 0}
-  target_position: {x: 0, y: 0, z: 0}
---- !u!114 &-2246683835017656164
-
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-
-  m_GameObject: {fileID: 3931088615936381235}
-
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3330a68de7c68c04bbf7e5710b94e109, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-
-  fields: {fileID: 3984965044026666294}
-  spawnStartTime: 0
-  unitSpawnTime: 0
-  queuedUnit: {fileID: 0}
-
