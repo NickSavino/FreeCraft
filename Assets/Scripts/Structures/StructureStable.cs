@@ -15,7 +15,7 @@ public class StructureStable : Structure
     {
         if (this.isSelected && Input.GetKeyDown(KeyCode.C))
         {
-            GameObject cavalry = Resources.Load("Cavalry") as GameObject;
+            GameObject cavalry = Instantiate(Resources.Load("Cavalry")) as GameObject;
             cavalry.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitCavalry script = cavalry.GetComponent<UnitCavalry>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));

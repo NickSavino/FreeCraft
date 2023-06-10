@@ -28,7 +28,7 @@ public class StructureHeadquarters : Structure
         if (this.isSelected && Input.GetKeyDown(KeyCode.W))
         {
             // load the prefab
-            GameObject worker = Resources.Load("Worker") as GameObject;
+            GameObject worker = Instantiate(Resources.Load("Worker")) as GameObject;
 
             // set the position to the default rally point initially (has to exit from structure)
             worker.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);

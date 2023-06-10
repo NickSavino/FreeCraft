@@ -15,7 +15,7 @@ public class StructureAirstrip : Structure
     {
         if (this.isSelected && Input.GetKeyDown(KeyCode.A))
         {
-            GameObject air = Resources.Load("Air") as GameObject;
+            GameObject air = Instantiate(Resources.Load("Air")) as GameObject;
             air.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitAir script = air.GetComponent<UnitAir>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));

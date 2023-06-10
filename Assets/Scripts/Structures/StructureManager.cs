@@ -82,9 +82,10 @@ public class StructureManager : MonoBehaviour
         SelectBarracks();
         SelectFactory();
         SelectHeadquarters();
-        UnselectStructure();
+
+        UpdateSelectedStructures();
         BuildStructure();
-        SelectStructureClick();
+  
         Debug.Log(selectedStructures.Count);
         UpdateTemplateColor();
         //DrawPlaceholder();
@@ -97,6 +98,12 @@ public class StructureManager : MonoBehaviour
         DrawPlaceholder();
     }
 
+
+    private void UpdateSelectedStructures()
+    {
+        UnselectStructure();
+        SelectStructureClick();
+    }
 
     /**
      * Function for selecting barracks specifically
@@ -397,6 +404,10 @@ public class StructureManager : MonoBehaviour
         {
             // reset selection fields in this class
             this.barracksSelected = false;
+            this.airstripSelected = false;
+            this.headquartersSelected = false;
+            this.stableSelected = false;
+            this.factorySelected = false;
             this.templateActive = false;
             this.template.SetActive(false);
             this.selectedStructures.Clear();
@@ -412,25 +423,30 @@ public class StructureManager : MonoBehaviour
 
 
         else if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    selectedStructures.Clear();
-                }
-                else
-                {
-                    foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
-                    {
-                        Structure s = structure.GetComponent<Structure>();
+        {
+            foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
+            {
+                // unselect the structure using its script
+                Structure s = structure.GetComponent<Structure>();
+                s.setIsSelected(false);
+            }
+        }
+                //else
+                //{
+                //    foreach (GameObject structure in GameObject.FindGameObjectsWithTag("Structure"))
+                //    {
+                //        Structure s = structure.GetComponent<Structure>();
 
-                        // if the user clicked anywhere not on the structure, unselect it
-                        if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
-                        {
-                            s.setIsSelected(false);
-                            selectedStructures.Remove(structure);
-                        }
+                //        // if the user clicked anywhere not on the structure, unselect it
+                //        if (!s.getMouseIsOver() && Input.GetKeyDown(KeyCode.Mouse0))
+                //        {
+                //            s.setIsSelected(false);
+                //            selectedStructures.Remove(structure);
+                //        }
 
-                        //   this.selectedStructures.Clear();
-                    }
-                }
+                //        //   this.selectedStructures.Clear();
+                //    }
+                //}
     }
 
 

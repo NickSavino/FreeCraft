@@ -579,6 +579,7 @@ public class HUDController : MonoBehaviour
 
 
             // holy fuck break up this line
+            //TODO: Address null exception here
             SpriteRenderer selectedStructureSprite = structureManager.selectedStructures[0].GetComponent<Structure>().queuedUnit.GetComponent<SpriteRenderer>();
             if (selectedStructureSprite != null)
             {
