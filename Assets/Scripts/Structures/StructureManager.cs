@@ -252,6 +252,10 @@ public class StructureManager : MonoBehaviour
 
             // set structure selected flags
             this.barracksSelected = false;
+            this.airstripSelected = false;
+            this.factorySelected = false;
+            this.headquartersSelected = false;
+            this.stableSelected = false;
             this.templateActive = false;
             this.template = null;
         }
