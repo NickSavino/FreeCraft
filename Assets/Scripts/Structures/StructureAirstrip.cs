@@ -19,8 +19,12 @@ public class StructureAirstrip : Structure
             air.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitAir script = air.GetComponent<UnitAir>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));
-            Instantiate(air);
+         //   Instantiate(air);
+            this.queuedUnit = air;
+            air.SetActive(false);
 
+            this.spawnStartTime = Time.time;
+            this.unitSpawnTime = script.fields.spawnTime;
 
 
         }

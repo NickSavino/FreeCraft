@@ -14,6 +14,7 @@ public class UnitFields : MonoBehaviour
     public float attackRange;
     //How long a unit must wait in between attacks, needs to be reworked and implemented as attack speed
     public float attackDelay;
+    public float spawnTime;
 
     public string unitName;
 

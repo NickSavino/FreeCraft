@@ -27,6 +27,14 @@ public class Structure : MonoBehaviour
     // This requires converting structure spawns to using prefabs
     [SerializeField] protected UnitFields fields;
 
+    public float spawnStartTime;
+    public float unitSpawnTime;
+
+    public GameObject queuedUnit;
+    
+    
+
+
 
 
     // Start is called before the first frame update
@@ -40,6 +48,7 @@ public class Structure : MonoBehaviour
     public virtual void Update()
     {
         SetRallyPointPositionOnClick();
+        SpawnUnit();
     }
 
     protected void OnMouseEnter()
@@ -167,6 +176,35 @@ public class Structure : MonoBehaviour
 
 
 
+
+    public bool SpawnTimePassed()
+    {
+        return Time.time - spawnStartTime >= unitSpawnTime;
+    }
+
+
+
+    public void SpawnUnit()
+    {
+        if (SpawnTimePassed() && queuedUnit != null)
+        {
+            queuedUnit.SetActive(true);
+            Instantiate(queuedUnit);
+            this.queuedUnit = null;
+        }
+
+    }
+
+    public void DequeueUnit()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt)) {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Destroy(queuedUnit);
+                queuedUnit = null;
+            }
+        }
+    }
 
 
 

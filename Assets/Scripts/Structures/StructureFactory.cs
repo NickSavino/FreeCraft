@@ -22,10 +22,14 @@ public class StructureFactory : Structure
             artillery.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitArtillery script = artillery.GetComponent<UnitArtillery>();
             script.SetDestination(new Vector3(this.rallyPoint.transform.position.x, this.rallyPoint.transform.position.y, 0));
-            Instantiate(artillery);
+         //   Instantiate(artillery);
 
 
+            this.queuedUnit = artillery;
+            artillery.SetActive(false);
 
+            this.spawnStartTime = Time.time;
+            this.unitSpawnTime = script.fields.spawnTime;
         }
     }
 
