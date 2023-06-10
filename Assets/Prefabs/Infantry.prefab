@@ -292,7 +292,6 @@ GameObject:
   - component: {fileID: 6439062573576357313}
   - component: {fileID: 7254208680976768583}
   - component: {fileID: 6011475335516189050}
-  - component: {fileID: 395326161}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Unit
@@ -435,6 +434,7 @@ MonoBehaviour:
   movement_speed: 10
   attackRange: 2
   attackDelay: 1
+  spawnTime: 5
   unitName: 
   position: {x: 0, y: 0, z: 0}
   target_position: {x: 0, y: 0, z: 0}
@@ -457,7 +457,7 @@ MonoBehaviour:
   onHealthChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395326161}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnitUI, Assembly-CSharp
         m_MethodName: OnHealthChange
         m_Mode: 1
@@ -472,21 +472,6 @@ MonoBehaviour:
   targetUnit: {fileID: 6011475335516189050}
   currentAttackTime: 0
   prevAttackTime: 0
---- !u!114 &395326161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6439062573576357372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5eeb79b95123d04c9ea31685df19bc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthPanel: {fileID: 800196014}
-  healthText: {fileID: 1701835994}
-  unit: {fileID: 6011475335516189050}
 --- !u!1 &6439062573777715410
 GameObject:
   m_ObjectHideFlags: 0
