@@ -21,6 +21,9 @@ public class HUDController : MonoBehaviour
 
     GameObject[] smallPortraits;
 
+    GameObject spawnPortrait;
+    GameObject spawnText;
+
     Text activeHealth;
 
     List<Unit> group1;
@@ -101,6 +104,9 @@ public class HUDController : MonoBehaviour
         // activeHealth = GameObject.FindGameObjectWithTag("ActiveHealth").GetComponent<Text>();
         unitController = GameObject.FindGameObjectWithTag("UnitController").GetComponent<UnitController>();
 
+        spawnPortrait = GameObject.FindGameObjectWithTag("SpawnPortrait");
+        spawnText = GameObject.FindGameObjectWithTag("SpawnTimer");
+
         lastSelected = 0;
 
         // one for each control group
@@ -168,7 +174,6 @@ public class HUDController : MonoBehaviour
 
         // Unit[] selectedUnits = SelectedUnitsShallowCopy();
         List<Unit> selectedUnits = unitController.selectedUnits;
-  
 
 
 
@@ -176,7 +181,7 @@ public class HUDController : MonoBehaviour
 
         if (selectedUnits.Count != 0)
         {
-  
+
             hud.transform.Find("MainPortrait").GetComponent<Image>().sprite = selectedUnits[0].GetComponent<SpriteRenderer>().sprite;
             hud.transform.Find("MainPortrait").GetComponent<Image>().color = Color.white;
             // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
@@ -521,7 +526,9 @@ public class HUDController : MonoBehaviour
 
         if (selectedStructs.Count != 0)
         {
+
             ClearActivePortrait();
+            ClearSmallPortraits();
             hud.transform.Find("MainPortrait").GetComponent<Image>().sprite = selectedStructs[0].GetComponent<SpriteRenderer>().sprite;
             hud.transform.Find("MainPortrait").GetComponent<Image>().color = Color.white;
             // activeHealth.text = $"Health: {selectedUnits[0].fields.health})";
@@ -570,9 +577,11 @@ public class HUDController : MonoBehaviour
     private void UpdateSpawnPortrait()
     {
         // TODO: THIS FUNCTION SHOULD ONLY BE CALLED IN AN IF CONDITION
-        ClearSpawnPortrait();
         if (StructureSelected())
         {
+            spawnPortrait.SetActive(true);
+            ClearSpawnPortrait();
+     
             Image spawnImage = hud.transform.Find("SpawnPortrait").GetComponent<Image>();
             //  spawnImage.sprite = structureManager.selectedStructures[0].GetComponent<SpriteRenderer>().sprite;
             //spawnImage.color = Color.white;
@@ -580,28 +589,43 @@ public class HUDController : MonoBehaviour
 
             // holy fuck break up this line
             //TODO: Address null exception here
-            SpriteRenderer selectedStructureSprite = structureManager.selectedStructures[0].GetComponent<Structure>().queuedUnit.GetComponent<SpriteRenderer>();
-            if (selectedStructureSprite != null)
+            Structure selectedStruc = structureManager.selectedStructures[0].GetComponent<Structure>();
+
+            SpriteRenderer strucSprite = selectedStruc.queuedUnit.GetComponent<SpriteRenderer>();
+
+            if (strucSprite != null)
             {
-                spawnImage.sprite = selectedStructureSprite.sprite;
+                spawnImage.sprite = strucSprite.sprite;
                 spawnImage.color = Color.white;
             }
 
         }
-    
+        else
+        {
+      
+            ClearSpawnPortrait();
+            spawnPortrait.SetActive(false);
+        }
+
+
+
     }
 
 
     private void UpdateSpawnStatus()
     {
         // TODO: THIS SHOULD PROBABLY NOT BE CALLED EVERY FRAME, SHOULD BE IN AN IF CONDITIONAL
-        TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
+       // TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
         // TODO: THIS FUNCTION SHOULD ONLY BE CALLED IN AN IF CONDITION
-        spawnTimer.text = "";
+    //    spawnTimer.text = "";
         // TODO: MOVE THIS CHECK TO MAIN FUNCTION THAT CALLS ALL SUB FUNCTIONS
         if (StructureSelected())
         {
-         //   TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
+            spawnText.SetActive(true);
+            TextMeshProUGUI spawnTimer = spawnText.GetComponent<TextMeshProUGUI>();
+            // TODO: THIS FUNCTION SHOULD ONLY BE CALLED IN AN IF CONDITION
+            spawnTimer.text = "";
+            //   TextMeshProUGUI spawnTimer = GameObject.FindGameObjectWithTag("SpawnTimer").GetComponent<TextMeshProUGUI>();
             Structure selectedStructure = structureManager.selectedStructures[0].GetComponent<Structure>();
             if (selectedStructure.queuedUnit != null)
             {
@@ -611,6 +635,10 @@ public class HUDController : MonoBehaviour
                 spawnTimer.text = string.Format("Unit spawns in {0:0} seconds", timeLeftTillSpawn);
             }
 
+        }
+        else
+        {
+            spawnText.SetActive(false);
         }
     }
 

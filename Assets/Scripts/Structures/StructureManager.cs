@@ -428,6 +428,7 @@ public class StructureManager : MonoBehaviour
             {
                 // unselect the structure using its script
                 Structure s = structure.GetComponent<Structure>();
+                selectedStructures.Remove(structure);
                 s.setIsSelected(false);
             }
         }
