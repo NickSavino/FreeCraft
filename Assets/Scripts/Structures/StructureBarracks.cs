@@ -23,8 +23,8 @@ public class StructureBarracks : Structure
         {
           
             // load the prefab
-            GameObject infantry = Resources.Load("Infantry") as GameObject;
-
+            GameObject infantry = Instantiate(Resources.Load("Prefabs/Infantry")) as GameObject;
+         //   Instantiate(infantry);
             // set the position to the default rally point initially (has to exit from structure)
             infantry.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
 

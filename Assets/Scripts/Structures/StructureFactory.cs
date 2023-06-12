@@ -17,7 +17,7 @@ public class StructureFactory : Structure
     {
         if (this.isSelected && Input.GetKeyDown(KeyCode.A))
         {
-            GameObject artillery = Resources.Load("Artillery") as GameObject;
+            GameObject artillery = Instantiate(Resources.Load("Prefabs/Artillery")) as GameObject;
             Debug.Log(artillery);
             artillery.transform.position = new Vector3(transform.position.x, transform.position.y - transform.localScale.y, 0);
             UnitArtillery script = artillery.GetComponent<UnitArtillery>();

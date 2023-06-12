@@ -9,6 +9,23 @@ TagManager:
   - Structure
   - Resource
   - HUD
+  - PauseMenu
+  - StructureManager
+  - UnitController
+  - SmallPortrait
+  - SupplyCounter
+  - MineralCounter
+  - SpawnPortrait
+  - GasCounter
+  - Portrait
+  - GasSprite
+  - SupplySprite
+  - SpawnTimer
+  - MineralsNum
+  - GasNum
+  - MineralsSprite
+  - SupplyNum
+  - HUDController
   layers:
   - Default
   - TransparentFX

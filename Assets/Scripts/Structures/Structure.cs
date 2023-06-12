@@ -32,7 +32,7 @@ public class Structure : MonoBehaviour
 
     public GameObject queuedUnit;
 
-    int numberOverlapping;
+
     
 
 
@@ -50,6 +50,7 @@ public class Structure : MonoBehaviour
     {
         SetRallyPointPositionOnClick();
         SpawnUnit();
+        DequeueUnit();
     }
 
     protected void OnMouseEnter()
@@ -82,22 +83,6 @@ public class Structure : MonoBehaviour
         return this.isSelected;
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-
-    //{
-    //    if (collision.collider.GetComponent<Structure>() != null)
-    //    {
-    //        ++numberOverlapping;
-    //    }
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.collider.GetComponent<Structure>() != null)
-    //    {
-    //        --numberOverlapping;
-    //    }
-    //}
 
 
 
@@ -207,7 +192,6 @@ public class Structure : MonoBehaviour
         if (SpawnTimePassed() && queuedUnit != null)
         {
             queuedUnit.SetActive(true);
-            Instantiate(queuedUnit);
             this.queuedUnit = null;
         }
 
@@ -215,12 +199,12 @@ public class Structure : MonoBehaviour
 
     public void DequeueUnit()
     {
-        if (Input.GetKey(KeyCode.LeftAlt)) {
-            if (Input.GetKey(KeyCode.Escape))
-            {
-                Destroy(queuedUnit);
-                queuedUnit = null;
-            }
+        if (isSelected && Input.GetKeyDown(KeyCode.Tilde))
+        {
+
+            Destroy(queuedUnit.gameObject);
+            queuedUnit = null;
+            
         }
     }
 
