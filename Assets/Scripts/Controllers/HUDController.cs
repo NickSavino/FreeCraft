@@ -6,6 +6,13 @@ using System;
 using TMPro;
 //using UnityEngine.UIElements;
 
+/**
+ *  Class for handling the main GUI
+ * 
+ * 
+ * 
+ */
+
 public class HUDController : MonoBehaviour
 {
 

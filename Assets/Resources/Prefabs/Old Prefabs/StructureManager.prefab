@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9130576078356386988}
   m_Layer: 0
   m_Name: StructureManager
-  m_TagString: Untagged
+  m_TagString: StructureManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511fa1955b7de6849aac15beb6e7b016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedStructures: []
+  headquartersSelected: 0
+  barracksSelected: 0
+  factorySelected: 0
+  stableSelected: 0
+  airstripSelected: 0

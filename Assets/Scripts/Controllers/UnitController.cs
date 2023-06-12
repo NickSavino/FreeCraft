@@ -19,7 +19,7 @@ public class UnitController : MonoBehaviour
         selectedUnits = new List<Unit>();
         Debug.Log(Input.mousePresent);
 
-        hud = GameObject.FindGameObjectWithTag("HUD");
+        hud = GameObject.FindGameObjectWithTag("HUDController");
         if ( hud != null )
         {
             hudC = hud.GetComponent<HUDController>();

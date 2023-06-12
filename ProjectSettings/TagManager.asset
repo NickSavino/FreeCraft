@@ -25,6 +25,7 @@ TagManager:
   - GasNum
   - MineralsSprite
   - SupplyNum
+  - HUDController
   layers:
   - Default
   - TransparentFX
