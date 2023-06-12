@@ -123,6 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+
 --- !u!1 &121703400
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,12 +720,14 @@ CanvasRenderer:
   m_GameObject: {fileID: 401134009}
   m_CullTransparentMesh: 1
 --- !u!1001 &408212403
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+
     - target: {fileID: 2432025944739083303, guid: 1373c068886d480438f2a6e0e70f9b96, type: 3}
       propertyPath: m_Name
       value: StructureManager
@@ -1985,6 +1988,7 @@ Transform:
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1332115937
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2599,6 +2603,7 @@ RectTransform:
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806173327
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2780,6 +2785,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1825812103
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2818,12 +2824,14 @@ CanvasRenderer:
   m_GameObject: {fileID: 1825812100}
   m_CullTransparentMesh: 1
 --- !u!1001 &1828023344
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+
     - target: {fileID: 4960412406641879284, guid: 83780ead5043ff34c8174234c6920da8, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2875,12 +2883,14 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83780ead5043ff34c8174234c6920da8, type: 3}
 --- !u!1001 &1860719458
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+
     - target: {fileID: 316958034855310756, guid: 9984334b11a44834cbed15c6d1e91946, type: 3}
       propertyPath: m_Name
       value: GameController
@@ -2926,10 +2936,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4870214395830750238, guid: 9984334b11a44834cbed15c6d1e91946, type: 3}
+
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
+
     - {fileID: 8618033318748812046, guid: 9984334b11a44834cbed15c6d1e91946, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9984334b11a44834cbed15c6d1e91946, type: 3}
 --- !u!1 &2002680264
@@ -3131,6 +3143,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 2018893583}
   m_CullTransparentMesh: 1
 --- !u!1001 &1114484813144612236
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3157,6 +3170,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+
+
     - target: {fileID: 1114484811771688854, guid: 4d0b0eaf9ee77dd4fac91ec0b85b7e89, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3375,3 +3390,4 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d0b0eaf9ee77dd4fac91ec0b85b7e89, type: 3}
+
