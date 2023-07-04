@@ -111,8 +111,6 @@ public class UnitWorker : Unit
             if (hq != null)
             {
                 float distance = Vector3.Distance(this.gameObject.transform.position, hq.transform.position);
-                Debug.Log(distance);
-                Debug.Log(prevDistance);
                 if (distance < prevDistance)
                 {
                     this.headquarters = hq;

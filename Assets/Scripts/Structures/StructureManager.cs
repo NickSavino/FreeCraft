@@ -86,7 +86,6 @@ public class StructureManager : MonoBehaviour
         UpdateSelectedStructures();
         BuildStructure();
   
-        Debug.Log(selectedStructures.Count);
         UpdateTemplateColor();
         //DrawPlaceholder();
         //  BuildBarracks();
